@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import '../css/admin.css';
-import { getStoredAdminKey, setStoredAdminKey, uploadToCloudinary, createProject, pingHealth } from '../utils/adminApi';
+import { getStoredAdminKey, setStoredAdminKey, uploadToCloudinary, createProject, pingHealth, fetchProjects, updateProject, deleteProject } from '../utils/adminApi';
 
 export default function Admin() {
   const [adminKey, setAdminKeyState] = useState(getStoredAdminKey());
@@ -95,6 +95,25 @@ export default function Admin() {
     }
   }
 
+  const [projects, setProjects] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+
+  async function loadProjects() {
+    try {
+      const list = await fetchProjects();
+      setProjects(Array.isArray(list) ? list : []);
+    } catch (err) {
+      console.error('loadProjects error', err);
+    }
+  }
+
+  useEffect(() => {
+    loadProjects();
+    const handler = () => loadProjects();
+    window.addEventListener('projects-updated', handler);
+    return () => window.removeEventListener('projects-updated', handler);
+  }, []);
+
   async function onPublish(e) {
     e.preventDefault();
     setLoading(true); setError(''); setSuccess('');
@@ -119,13 +138,20 @@ export default function Admin() {
         throw new Error('Judul dan sumber media (file atau URL) diperlukan.');
       }
 
-      await createProject(payload);
+      if (editingId) {
+        // updating existing project
+        await updateProject(editingId, payload);
+        await createProject(payload);
+        setSuccess('Project berhasil dipublikasikan');
+      }
 
+      // refresh list
+      await loadProjects();
       // notify projects list to refresh
       try { window.dispatchEvent(new Event('projects-updated')); } catch (e) { }
 
-      setSuccess('Project berhasil dipublikasikan');
       setForm({ title: '', description: '', src: '', cloudinary_public_id: '' });
+      setEditingId(null);
       if (fileRef.current) fileRef.current.value = null;
       if (objectUrlRef.current) { try { URL.revokeObjectURL(objectUrlRef.current); } catch (e) { } objectUrlRef.current = null; }
       setPreviewUrl('');
@@ -167,6 +193,15 @@ export default function Admin() {
             <label>Judul</label>
             <textarea name="title" value={form.title} onChange={onChange} rows={2} className="small-textarea" required />
 
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 8 }}>
+              {editingId ? <div style={{ color: 'var(--muted)' }}>Editing: <strong>{editingId}</strong></div> : <div style={{ color: 'var(--muted)' }}>New project</div>}
+              {editingId && (
+                <button type="button" className="button ghost" onClick={() => { setEditingId(null); setForm({ title: '', description: '', src: '', cloudinary_public_id: '' }); setPreviewUrl(''); if (fileRef.current) fileRef.current.value = null; }}>
+                  Cancel edit
+                </button>
+              )}
+            </div>
+
             <label>Deskripsi</label>
             <textarea name="description" value={form.description} onChange={onChange} rows={4} />
 
@@ -193,11 +228,65 @@ export default function Admin() {
             </div>
 
             <div className="actions">
-              <button type="submit" className="button primary" disabled={loading}>{loading ? `Publishing${progress ? ` ${progress}%` : '…'}` : 'Publish'}</button>
+              <button type="submit" className="button primary" disabled={loading}>{loading ? (editingId ? `Saving${progress ? ` ${progress}%` : '…'}` : `Publishing${progress ? ` ${progress}%` : '…'}`) : (editingId ? 'Save changes' : 'Publish')}</button>
+              {editingId && <button type="button" className="button ghost" onClick={() => { setEditingId(null); setForm({ title: '', description: '', src: '', cloudinary_public_id: '' }); setPreviewUrl(''); if (fileRef.current) fileRef.current.value = null; }}>Batal</button>}
             </div>
 
             <div className="admin-help">Form minimal: Judul, Deskripsi, Media (upload otomatis ke Cloudinary) atau masukkan URL manual lalu tekan Publish.</div>
           </form>
+
+          <section style={{ marginTop: 28 }} aria-labelledby="admin-list-heading">
+            <h3 id="admin-list-heading" style={{ marginBottom: 12 }}>Daftar Projects ({projects.length})</h3>
+
+            {projects.length === 0 ? (
+              <div style={{ color: 'var(--muted)' }}>Belum ada project.</div>
+            ) : (
+              <div style={{ display: 'grid', gap: 12 }}>
+                {projects.map(p => (
+                  <div key={p.id} className="admin-project-card admin-card" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <div style={{ width: 120, height: 68, background: '#000', borderRadius: 8, overflow: 'hidden', flex: '0 0 auto' }}>
+                      {p.src && (p.src.endsWith('.mp4') || p.src.includes('video')) ? (
+                        <video src={p.src} muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : p.src ? (
+                        <img src={p.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : null}
+                    </div>
+
+                    <div style={{ flex: '1 1 auto' }}>
+                      <div style={{ fontWeight: 800 }}>{p.title}</div>
+                      <div style={{ color: 'var(--muted)', fontSize: 14 }}>{p.description || p.desc}</div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button className="button ghost" onClick={() => {
+                        // populate form for editing
+                        setEditingId(p.id);
+                        setForm({ title: p.title || '', description: p.description || p.desc || '', src: p.src || '', cloudinary_public_id: p.cloudinary_public_id || '' });
+                        setPreviewUrl(p.src || '');
+                        // scroll to top of admin where the form lives
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}>Edit</button>
+
+                      <button className="button danger" onClick={async () => {
+                        if (!confirm(`Hapus project '${p.title}'? Aksi ini tidak dapat dibatalkan.`)) return;
+                        try {
+                          setLoading(true);
+                          await deleteProject(p.id);                          // if we were editing this project, cancel edit
+                          if (editingId === p.id) { setEditingId(null); setForm({ title: '', description: '', src: '', cloudinary_public_id: '' }); setPreviewUrl(''); if (fileRef.current) fileRef.current.value = null; }                          setSuccess('Project dihapus');
+                          setError('');
+                          await loadProjects();
+                          try { window.dispatchEvent(new Event('projects-updated')); } catch (e) {}
+                        } catch (err) {
+                          setError(err.message || 'Delete failed');
+                        } finally { setLoading(false); }
+                      }}>Delete</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
         </main>
 
         {success && <div className="toast">{success}</div>}

@@ -4,39 +4,7 @@ import '../css/projects.css';
 import { getWhatsAppUrl } from '../utils/whatsapp';
 
 const PROJECTS = [
-  {
-    id: 'p1',
-    title: 'Website E-Commerce Minuman dengan Pemesanan Cepat',
-    desc: 'Website penjualan minuman segar dengan tampilan visual produk yang kuat, informasi harga dan durasi pengiriman, pilihan varian, serta CTA pemesanan instan. Dirancang untuk mempercepat keputusan beli dengan layout bersih dan fokus ke produk.',
-    src: 'https://res.cloudinary.com/dimw2tqof/video/upload/v1767679542/web_1_b5u6fr.mp4',
-    /* Optional: set whatsapp key or full url for this project (e.g. 'portfolio' or 'business' or full 'https://wa.me/...') */
-    whatsapp: 'portfolio'
-  },
-  {
-    id: 'p2',
-    title: 'Landing Page Kuliner dengan Fokus Konversi',
-    desc: 'Landing page untuk bisnis kuliner street food dengan visual kontras tinggi, headline kuat, informasi menu dan saus, serta tombol order langsung. Dirancang untuk menarik perhatian dan mendorong pembelian cepat.',
-    src: 'https://res.cloudinary.com/dimw2tqof/video/upload/v1767679539/web_5_uup2mx.mp4',
-    whatsapp: 'general'
-  },
-  {
-    id: 'p3',
-    title: 'Website Brand Lifestyle dengan Storytelling Visual',
-    desc: 'Website brand dengan pendekatan storytelling yang kuat, menggabungkan visual elegan, copy premium, dan alur eksplorasi yang halus untuk membangun kesan eksklusif serta memperkuat identitas brand.',
-    src: 'https://res.cloudinary.com/dimw2tqof/video/upload/v1767679538/web_3_isfevy.mp4'
-  },
-  {
-    id: 'p4',
-    title: 'Website Creative Agency Berbasis Portofolio',
-    desc: 'Website agency kreatif yang berfokus pada showcase karya, statistik pencapaian, dan call-to-action proyek. Menggunakan layout dinamis dan hierarki konten yang jelas untuk menarik klien potensial.',
-    src: 'https://res.cloudinary.com/dimw2tqof/video/upload/v1767679536/web_4_qdpsyt.mp4'
-  },
-  {
-    id: 'p5',
-    title: 'Website Company Profile Digital Agency',
-    desc: 'Website company profile untuk digital agency yang menonjolkan value, layanan, dan pendekatan kreatif melalui desain minimalis, typography modern, dan navigasi yang jelas untuk meningkatkan kredibilitas dan konversi klien.',
-    src: 'https://res.cloudinary.com/dimw2tqof/video/upload/v1767679533/web_2_ierz3k.mp4'
-  }
+ 
 ];
 
 // Client-side projects state (fetch from server). We keep the hardcoded list as fallback so design doesn't change
@@ -81,6 +49,15 @@ export default function Projects() {
   const modalRef = useRef(null);
   const headerRef = useRef(null);
   const closeBtnRef = useRef(null);
+  const sectionRef = useRef(null);
+
+  // Projects display controls (show up to PAGE_SIZE by default)
+  const PAGE_SIZE = 6;
+  const [showAll, setShowAll] = useState(false);
+  const [remoteProjects] = useRemoteProjects();
+  const projectsList = (remoteProjects && remoteProjects.length > 0) ? remoteProjects : PROJECTS;
+  const totalProjects = projectsList.length;
+  const displayedProjects = showAll ? projectsList : projectsList.slice(0, PAGE_SIZE);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -192,6 +169,66 @@ export default function Projects() {
     };
   }, []);
 
+  // If the Projects grid is internally scrollable, allow scrolling past its end to move to About section
+  useEffect(() => {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    const wheelHandler = (e) => {
+      // If modal open, ignore
+      if (document.body.classList.contains('project-modal-open')) return;
+      const atBottom = Math.abs(grid.scrollHeight - grid.scrollTop - grid.clientHeight) <= 1;
+      const atTop = grid.scrollTop <= 0;
+      if (e.deltaY > 0 && atBottom) {
+        // scroll down past grid => go to About
+        e.preventDefault();
+        const about = document.getElementById('about');
+        if (about) about.scrollIntoView({ behavior: 'smooth' });
+      } else if (e.deltaY < 0 && atTop) {
+        // scroll up past grid => go to previous section
+        e.preventDefault();
+        const prev = grid.closest('section').previousElementSibling;
+        if (prev) prev.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    const touchStart = (e) => {
+      touchStartY = e.touches && e.touches[0] ? e.touches[0].clientY : 0;
+    };
+    const touchMove = (e) => {
+      touchEndY = e.touches && e.touches[0] ? e.touches[0].clientY : 0;
+    };
+    const touchEnd = () => {
+      // small threshold to detect swipe
+      const dist = touchStartY - touchEndY;
+      const atBottom = Math.abs(grid.scrollHeight - grid.scrollTop - grid.clientHeight) <= 1;
+      const atTop = grid.scrollTop <= 0;
+      if (dist > 40 && atBottom) {
+        const about = document.getElementById('about');
+        if (about) about.scrollIntoView({ behavior: 'smooth' });
+      } else if (dist < -40 && atTop) {
+        const prev = grid.closest('section').previousElementSibling;
+        if (prev) prev.scrollIntoView({ behavior: 'smooth' });
+      }
+      touchStartY = touchEndY = 0;
+    };
+
+    grid.addEventListener('wheel', wheelHandler, { passive: false });
+    grid.addEventListener('touchstart', touchStart, { passive: true });
+    grid.addEventListener('touchmove', touchMove, { passive: true });
+    grid.addEventListener('touchend', touchEnd, { passive: true });
+
+    return () => {
+      try { grid.removeEventListener('wheel', wheelHandler); } catch (e) {}
+      try { grid.removeEventListener('touchstart', touchStart); } catch (e) {}
+      try { grid.removeEventListener('touchmove', touchMove); } catch (e) {}
+      try { grid.removeEventListener('touchend', touchEnd); } catch (e) {}
+    };
+  }, []);
+
   // Entrance animation for header: add .is-visible when header enters viewport
   useEffect(() => {
     const headerEl = headerRef.current;
@@ -217,46 +254,51 @@ export default function Projects() {
     return () => obs.disconnect();
   }, []);
 
-  // Hide navbar and lock background scroll on mobile while project modal is open
-  useEffect(() => {
-    const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
+  // Lock background scroll on ALL devices when modal is open
+useEffect(() => {
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
 
-    if (open && isMobile) {
-      // Hide navbar (existing behavior)
+  if (open) {
+    // Hide navbar on mobile only
+    if (isMobile) {
       document.body.classList.add('project-modal-open-hide-navbar');
-
-      // Lock background scroll on mobile: save scroll position and fix body
-      const scrollY = window.scrollY || window.pageYOffset || 0;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.classList.add('project-modal-open-no-scroll');
-    } else {
-      // Restore
-      document.body.classList.remove('project-modal-open-hide-navbar');
-
-      if (document.body.classList.contains('project-modal-open-no-scroll')) {
-        const top = document.body.style.top || '0px';
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.classList.remove('project-modal-open-no-scroll');
-        // restore scroll position
-        const scrollY = top ? -parseInt(top || '0', 10) : 0;
-        window.scrollTo(0, scrollY);
-      }
     }
 
-    return () => {
-      document.body.classList.remove('project-modal-open-hide-navbar');
-      if (document.body.classList.contains('project-modal-open-no-scroll')) {
-        const top = document.body.style.top || '0px';
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.classList.remove('project-modal-open-no-scroll');
-        const scrollY = top ? -parseInt(top || '0', 10) : 0;
-        window.scrollTo(0, scrollY);
-      }
-    };
-  }, [open]);
+    // Lock scroll on ALL devices (mobile + desktop)
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%'; // prevent layout shift
+    document.body.classList.add('project-modal-open-no-scroll');
+  } else {
+    // Restore everything
+    document.body.classList.remove('project-modal-open-hide-navbar');
+
+    if (document.body.classList.contains('project-modal-open-no-scroll')) {
+      const top = document.body.style.top || '0px';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.classList.remove('project-modal-open-no-scroll');
+      // restore scroll position
+      const scrollY = top ? -parseInt(top || '0', 10) : 0;
+      window.scrollTo(0, scrollY);
+    }
+  }
+
+  return () => {
+    document.body.classList.remove('project-modal-open-hide-navbar');
+    if (document.body.classList.contains('project-modal-open-no-scroll')) {
+      const top = document.body.style.top || '0px';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.classList.remove('project-modal-open-no-scroll');
+      const scrollY = top ? -parseInt(top || '0', 10) : 0;
+      window.scrollTo(0, scrollY);
+    }
+  };
+}, [open]);
 
   return (
     <section id="projects" className="projects-section py-12 px-4 sm:px-8 lg:px-16">
@@ -265,8 +307,8 @@ export default function Projects() {
           <h2 className="projects-heading">Proyek Kami</h2>
         </header>
 
-        <div className="projects-grid">
-          {((() => { const [remoteProjects] = useRemoteProjects(); return remoteProjects && remoteProjects.length > 0 ? remoteProjects : PROJECTS; })()).map((p) => (
+        <div id="projects-grid" className="projects-grid">
+          {displayedProjects.map((p) => (
             <div
               key={p.id}
               role="button"
@@ -308,6 +350,21 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        {/* Actions: show all / collapse */}
+        {totalProjects > PAGE_SIZE && (
+          <div className="projects-actions text-center mt-6">
+            <button
+              className="btn-primary btn-show-all"
+              onClick={() => setShowAll(s => !s)}
+              aria-expanded={showAll}
+              aria-controls="projects-grid"
+            >
+              {showAll ? `Tampilkan ${PAGE_SIZE}` : `Tampilkan Semua (${totalProjects})`}
+            </button>
+          </div>
+        )}
+
       </div>
 
       {/* Modal: render as portal on mobile to escape stacking contexts (ensure it sits above About) */}
@@ -316,8 +373,8 @@ export default function Projects() {
         const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
 
         const modalContent = (
-          <div className="projects-modal opened" role="dialog" aria-modal="true" aria-labelledby={`proj-title-${active.id}`} onClick={closeModal}>
-            <div className="projects-modal-inner" ref={modalRef} onClick={(e) => e.stopPropagation()}>
+          <div className="projects-modal opened" role="dialog" aria-modal="true" aria-labelledby={`proj-title-${active.id}`} onClick={closeModal} style={{ zIndex: 2147483647 }}>
+            <div className="projects-modal-inner" ref={modalRef} onClick={(e) => e.stopPropagation()} style={{ zIndex: 2147483647 }}>
               <button ref={closeBtnRef} className="projects-modal-close" aria-label="Tutup" onClick={closeModal}>✕</button>
 
               <div className="projects-modal-grid">
@@ -353,9 +410,7 @@ export default function Projects() {
           </div>
         );
 
-        if (!isMobile) return modalContent;
-
-        // Render portal into document.body on mobile
+        // Render modal via portal into document.body for all viewports so it escapes any stacking/overflow contexts
         return createPortal(modalContent, document.body);
       })()}
     </section>

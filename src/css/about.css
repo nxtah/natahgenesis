@@ -118,15 +118,7 @@
 /* About gallery: five equal-width images spanning the section (desktop) */
 
 
-
-
-
-
-
 /* Responsive: reduce columns on smaller screens */
-
-
-
 
 
 /* About background color states (default dark, smooth transition to light when section active) */
@@ -134,6 +126,7 @@
   background-color: var(--black);
   color: var(--white);
   transition: background-color 600ms cubic-bezier(.2, .9, .2, 1), color 600ms cubic-bezier(.2, .9, .2, 1);
+  z-index: 15 !important;
 }
 
 .about.about--white {

@@ -161,13 +161,15 @@ const Section9 = () => {
             {/* Floating WhatsApp Button */}
             <a
                 href="https://wa.me/6285782338277?text=Halo%20Natah,%20saya%20tertarik%20konsultasi%20langsung"
-                className={`fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 flex items-center gap-3 pr-6 ${showFloating ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
+                aria-label="Konsultasi via WhatsApp"
+                className={`fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 flex items-center md:gap-3 gap-0 md:pr-6 pr-4 ${showFloating ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
             >
                 <div className="relative">
                     <MessageCircle className="w-7 h-7" />
                     <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
                 </div>
-                <span className="font-bold text-sm">Ada Pertanyaan?</span>
+                {/* Mobile: icon only. Desktop: show text */}
+                <span className="font-bold text-sm hidden md:inline">Ada Pertanyaan?</span>
             </a>
         </section>
     );

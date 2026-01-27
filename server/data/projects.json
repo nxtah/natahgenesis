@@ -1,14 +1,62 @@
 [
   {
-    "id": "ce9f0f39-8a72-4662-aa03-59d08dc0d4eb",
-    "title": "curl -s http://localhost:3000/api/healthfff",
-    "description": "ff",
-    "src": "https://res.cloudinary.com/dvoq8lalw/video/upload/v1769496563/projects/owfpnsjbazavrujw2vgz.mp4",
-    "cloudinary_public_id": "projects/owfpnsjbazavrujw2vgz",
+    "id": "31f2412c-585b-47ec-b448-e008c865197d",
+    "title": "Website E-Commerce Minuman dengan Pemesanan Cepat",
+    "description": "Website penjualan minuman segar dengan tampilan visual produk yang kuat, informasi harga dan durasi pengiriman, pilihan varian, serta CTA pemesanan instan. Dirancang untuk mempercepat keputusan beli dengan layout bersih dan fokus ke produk.",
+    "src": "https://res.cloudinary.com/dvoq8lalw/video/upload/v1769505627/projects/pl6skjackx8zhc3ndvs7.mp4",
+    "cloudinary_public_id": "projects/pl6skjackx8zhc3ndvs7",
     "whatsapp": null,
     "is_published": true,
     "sort_order": 0,
-    "created_at": "2026-01-27T06:49:24.268Z",
-    "updated_at": "2026-01-27T06:49:24.268Z"
+    "created_at": "2026-01-27T09:20:28.876Z",
+    "updated_at": "2026-01-27T09:20:28.876Z"
+  },
+  {
+    "id": "0ce963db-7574-45f2-8f76-f3edc75be881",
+    "title": "Landing Page Kuliner dengan Fokus Konversi",
+    "description": "Landing page untuk bisnis kuliner street food dengan visual kontras tinggi, headline kuat, informasi menu dan saus, serta tombol order langsung. Dirancang untuk menarik perhatian dan mendorong pembelian cepat.",
+    "src": "https://res.cloudinary.com/dvoq8lalw/video/upload/v1769505705/projects/khqvcia1had32in9qt0h.mp4",
+    "cloudinary_public_id": "projects/khqvcia1had32in9qt0h",
+    "whatsapp": null,
+    "is_published": true,
+    "sort_order": 0,
+    "created_at": "2026-01-27T09:21:46.512Z",
+    "updated_at": "2026-01-27T09:21:46.512Z"
+  },
+  {
+    "id": "75d3399e-1d80-4fc8-a46d-f0fac74fc82e",
+    "title": "Website Brand Lifestyle dengan Storytelling Visual",
+    "description": "Website brand dengan pendekatan storytelling yang kuat, menggabungkan visual elegan, copy premium, dan alur eksplorasi yang halus untuk membangun kesan eksklusif serta memperkuat identitas brand.",
+    "src": "https://res.cloudinary.com/dvoq8lalw/video/upload/v1769505732/projects/yls1rp94w2h7e37fikh3.mp4",
+    "cloudinary_public_id": "projects/yls1rp94w2h7e37fikh3",
+    "whatsapp": null,
+    "is_published": true,
+    "sort_order": 0,
+    "created_at": "2026-01-27T09:22:13.663Z",
+    "updated_at": "2026-01-27T09:22:13.663Z"
+  },
+  {
+    "id": "8f70dae8-c121-4dd6-bf74-9114669fe700",
+    "title": "Website Creative Agency Berbasis Portofolio",
+    "description": "Website agency kreatif yang berfokus pada showcase karya, statistik pencapaian, dan call-to-action proyek. Menggunakan layout dinamis dan hierarki konten yang jelas untuk menarik klien potensial.",
+    "src": "https://res.cloudinary.com/dvoq8lalw/video/upload/v1769505760/projects/uahjx4xiahmwtmo5fjjc.mp4",
+    "cloudinary_public_id": "projects/uahjx4xiahmwtmo5fjjc",
+    "whatsapp": null,
+    "is_published": true,
+    "sort_order": 0,
+    "created_at": "2026-01-27T09:22:41.079Z",
+    "updated_at": "2026-01-27T09:22:41.079Z"
+  },
+  {
+    "id": "ba7d05e6-6c69-425a-b0c7-d21ba9641877",
+    "title": "Website Company Profile Digital Agency",
+    "description": "Website company profile untuk digital agency yang menonjolkan value, layanan, dan pendekatan kreatif melalui desain minimalis, typography modern, dan navigasi yang jelas untuk meningkatkan kredibilitas dan konversi klien.",
+    "src": "https://res.cloudinary.com/dvoq8lalw/video/upload/v1769505784/projects/i6x9abzuariawwxsyant.mp4",
+    "cloudinary_public_id": "projects/i6x9abzuariawwxsyant",
+    "whatsapp": null,
+    "is_published": true,
+    "sort_order": 0,
+    "created_at": "2026-01-27T09:23:05.850Z",
+    "updated_at": "2026-01-27T09:23:05.850Z"
   }
 ]

@@ -53,6 +53,9 @@ const About = () => {
         // Initialize background respecting reduced motion preference
         gsap.set(sectionRef.current, { backgroundColor: prefersReduced ? 'var(--white)' : 'var(--black)' });
 
+        // lockedRef prevents the background from reverting once Section5 is reached
+        const lockedRef = { current: false };
+
         let bgTween;
         if (!prefersReduced) {
           // Use a proper scroll range so the transition scrubs smoothly while scrolling into the section
@@ -67,6 +70,12 @@ const About = () => {
               scrub: 1.2,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
+                // If locked by Section5, always keep white
+                if (lockedRef.current) {
+                  sectionRef.current.classList.add('about--white');
+                  return;
+                }
+
                 if (self.progress > 0.5) sectionRef.current.classList.add('about--white');
                 else sectionRef.current.classList.remove('about--white');
               }
@@ -76,6 +85,24 @@ const About = () => {
           // Respect reduced motion: immediately set to white state for better contrast
           sectionRef.current.classList.add('about--white');
         }
+
+        // Watch for Section5 entering viewport and lock the about background to white when it does
+        const section5El = document.getElementById('why-us') || sectionRef.current && sectionRef.current.nextElementSibling;
+        let section5Io;
+        try {
+          if (section5El && 'IntersectionObserver' in window) {
+            section5Io = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  lockedRef.current = true;
+                  sectionRef.current && sectionRef.current.classList.add('about--white');
+                  gsap.set(sectionRef.current, { backgroundColor: 'var(--white)' });
+                }
+              });
+            }, { threshold: 0.01 });
+            section5Io.observe(section5El);
+          }
+        } catch (e) { /* ignore */ }
 
         // Subtle parallax entrance/exit for the two-column block (desktop) — smooth and not too fast
         let parallaxLeft, parallaxRight, parallaxBottom;
@@ -341,6 +368,30 @@ const About = () => {
         if (sectionRef.current) sectionRef.current.classList.remove('about--white');
       };
     });
+
+    // Failsafe: also observe About section directly and toggle white state when more than half visible
+    // This helps in cases where the Projects grid intercepts scroll and prevents GSAP's ScrollTrigger
+    try {
+      if ('IntersectionObserver' in window && sectionRef.current) {
+        const aboutIo = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.intersectionRatio > 0.5) {
+              sectionRef.current.classList.add('about--white');
+              gsap.set(sectionRef.current, { backgroundColor: 'var(--white)' });
+            } else {
+              sectionRef.current.classList.remove('about--white');
+              gsap.set(sectionRef.current, { backgroundColor: 'var(--black)' });
+            }
+          });
+        }, { threshold: [0.5] });
+        aboutIo.observe(sectionRef.current);
+
+        // Cleanup when mm is torn down
+        return () => {
+          aboutIo.disconnect();
+        };
+      }
+    } catch (e) { /* fail silently */ }
 
     // Also add repeated entrance animations for the left image and per-line slide-up for right column paragraphs
     mm.add('(min-width: 0px)', (context) => {
