@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "main": "index.js",
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "start": "node server/index.js",
-  "start:all": "concurrently \"npm run start\" \"npm run dev\""
+  "scripts": {
+    "start": "npm run start --workspace server",
+    "build": "npm run build --workspace client"
 },
 
   "dependencies": {

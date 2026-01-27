@@ -4,10 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "npm run start --workspace server",
+    "build": "npm run build --workspace client"
   },
   "dependencies": {
     "@cloudinary/react": "^1.14.3",
