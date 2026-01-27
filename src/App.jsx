@@ -1,3 +1,4 @@
+console.log('VITE_API_BASE:', import.meta.env.VITE_API_BASE);
 import Canvas from "./webgl/Canvas"
 import Layout from "./layout/Layout"
 
