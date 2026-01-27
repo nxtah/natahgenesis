@@ -1,0 +1,394 @@
+/* About section styles — mobile-first */
+
+/* Slogan styles — centered two-line headline */
+.slogan {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.slogan .slogan-line {
+  font-family: 'Migra';
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  hyphens: auto;
+  word-wrap: break-word;
+  display: block;
+  transition: opacity 480ms cubic-bezier(.2, .9, .2, 1), transform 520ms cubic-bezier(.2, .9, .2, 1);
+  will-change: transform, opacity;
+  /* FIX: Default visible state untuk mobile */
+  opacity: 1;
+  transform: none;
+}
+
+/* Hidden on mobile until reveal is applied (via Intersection Observer) */
+/* FIX: Hanya apply di mobile/tablet (bukan desktop) */
+@media (max-width: 1023px) {
+  .slogan:not(.reveal) .slogan-line {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .slogan.reveal .slogan-line {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Mobile combined heading reveal */
+  .slogan:not(.reveal) .slogan-line-mobile {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .slogan.reveal .slogan-line-mobile {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Mobile-only: force-hide desktop headings and ensure mobile heading uses same Migra font */
+  .slogan .slogan-line {
+    display: none !important;
+  }
+
+  .slogan-line-mobile {
+    display: block !important;
+    font-family: 'Migra';
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+/* FIX: Desktop - biarkan GSAP handle animation, jangan override dengan CSS */
+@media (min-width: 1024px) {
+  .slogan .slogan-line {
+    /* Remove any opacity/transform defaults that might conflict with GSAP */
+    transition: none;
+    /* Disable CSS transitions on desktop */
+  }
+
+  /* FIX: Override reveal class di desktop agar tidak conflict dengan GSAP */
+  .slogan.reveal .slogan-line {
+    /* Let GSAP handle the animation */
+    transition: none !important;
+  }
+}
+
+/* Responsive font sizes */
+@media (min-width: 768px) {
+  .slogan .slogan-line {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .slogan {
+    max-width: 1200px;
+  }
+
+  .slogan .slogan-line {
+    font-size: clamp(2.8rem, 5.4vw, 5rem);
+    line-height: 1.02;
+  }
+
+  /* Use section padding to position slogan on desktop (avoid transform-based shifts) */
+  .about {
+    padding-top: 12rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .about {
+    padding-top: 18rem;
+  }
+
+  .slogan .slogan-line {
+    font-size: clamp(3.4rem, 4.8vw, 6rem);
+  }
+}
+
+/* Reveal used by Intersection Observer on mobile; GSAP handles desktop animation */
+.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: opacity 600ms cubic-bezier(.2, .9, .2, 1), transform 700ms cubic-bezier(.2, .9, .2, 1);
+}
+
+/* About gallery: five equal-width images spanning the section (desktop) */
+
+
+
+
+
+
+
+/* Responsive: reduce columns on smaller screens */
+
+
+
+
+
+/* About background color states (default dark, smooth transition to light when section active) */
+.about {
+  background-color: var(--black);
+  color: var(--white);
+  transition: background-color 600ms cubic-bezier(.2, .9, .2, 1), color 600ms cubic-bezier(.2, .9, .2, 1);
+}
+
+.about.about--white {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+/* Mobile-only: increase top spacing for About section */
+@media (max-width: 767px) {
+  .about {
+    padding-top: 10rem;
+  }
+}
+
+/* Desktop layout tweaks */
+@media (min-width: 768px) {
+  .about {
+    padding-top: 4.5rem;
+    padding-bottom: 6rem;
+    overflow-x: hidden;
+    /* prevent gallery transforms from creating horizontal scroll */
+  }
+}
+
+@media (min-width: 1024px) {
+  .about {
+    padding-top: 12rem;
+    /* reduced bottom spacing for a more compact desktop layout */
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+  }
+
+  /* Desktop: reduce vertical space of the about-bottom block */
+  .about-bottom {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+    margin-top: 2rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal,
+  .about-visual,
+  .about-cta {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  /* FIX: Ensure text is always visible with reduced motion */
+  .slogan .slogan-line {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* About bottom two-column block */
+/* push this block further down to create breathing room under the slogan */
+.about-bottom {
+  background: transparent;
+  padding: 4rem 0 2rem;
+  margin-top: 2rem;
+}
+
+.about-bottom .col-left .font-heading,
+.about-bottom .col-right .font-heading {
+  font-family: 'Migra';
+}
+
+/* Use NeueMontreal for body copy in right column */
+.about-bottom .col-right {
+  font-family: 'NeueMontreal';
+  color: var(--black);
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+
+  .about-bottom .col-right p,
+  .about-bottom .col-right li {
+    font-size: 1.25rem;
+    line-height: 1.6;
+  }
+}
+
+@media (min-width: 1280px) {
+
+  .about-bottom .col-right p,
+  .about-bottom .col-right li {
+    font-size: 1.35rem;
+    line-height: 1.75;
+  }
+}
+
+.about-bottom a {
+  background: linear-gradient(180deg, #0f172a, #111827);
+  color: #fff;
+  padding: .6rem 1rem;
+  border-radius: .5rem;
+  display: inline-block
+}
+
+@media (min-width: 768px) {
+  .about-bottom {
+    padding-top: 6rem;
+    padding-bottom: 5rem;
+    margin-top: 3rem
+  }
+
+  .about-bottom .col-right {
+    font-size: 1.25rem;
+  }
+
+  .about-bottom .col-right p,
+  .about-bottom .col-right li {
+    font-size: 1.25rem;
+    line-height: 1.95;
+  }
+}
+
+@media (min-width: 1280px) {
+
+  /* Keep desktop-large balanced while still more compact */
+  .about-bottom {
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+    margin-top: 3rem
+  }
+
+  .about-bottom .col-right p,
+  .about-bottom .col-right li {
+    font-size: 1.35rem;
+    line-height: 2;
+  }
+}
+
+/* Make the left column image fill the full column and behave nicely */
+.about-bottom .col-left {
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: 1rem;
+  border-bottom-right-radius: 4rem;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.about-bottom .col-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 1rem;
+  border-bottom-right-radius: 4rem;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Mobile-only: make about image smaller, centered, and cap height (no cropping) */
+@media (max-width: 767px) {
+  .about-bottom .col-left {
+    width: min(92%, 360px);
+    margin: 0 auto;
+    min-height: auto;
+    height: auto;
+    border-radius: 0.75rem;
+    border-bottom-right-radius: 1.5rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .about-bottom .col-left img {
+    width: 100%;
+    height: auto;
+    max-height: 48vh;
+    object-fit: contain;
+    /* do not crop image */
+    object-position: center center;
+    display: block;
+    border-radius: 0.75rem;
+    border-bottom-right-radius: 1.5rem;
+    background: transparent;
+  }
+
+  /* Mobile-only: hide desktop paragraphs and show single combined paragraph for readability */
+  .about-bottom .col-right p:not(.mobile-only-combined) {
+    display: none !important;
+  }
+
+  .about-bottom .col-right p.mobile-only-combined {
+    display: block !important;
+    color: var(--black) !important;
+    /* force dark text on white background */
+    opacity: 1 !important;
+    /* ensure animation doesn't hide text */
+    transform: none !important;
+    /* cancel any translate/translateY */
+    transition: none !important;
+    /* disable transitions on mobile */
+    font-size: 0.95rem;
+    line-height: 1.45;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+  }
+
+  /* Mobile-only: constrain right column width and center it under image */
+  .about-bottom .col-right {
+    width: min(84%, 320px);
+    max-width: 320px;
+    margin: 1.25rem auto 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.about-bottom .col-right {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.about-bottom .col-right .line {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+@media (min-width: 768px) {
+
+  /* Ensure the image column grows with content on larger viewports */
+  .about-bottom .col-left {
+    min-height: 360px;
+    border-bottom-right-radius: 8rem;
+  }
+
+  .about-bottom .col-left img {
+    border-bottom-right-radius: 8rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-bottom .col-left {
+    min-height: 440px;
+    border-bottom-right-radius: 12rem;
+  }
+
+  .about-bottom .col-left img {
+    border-bottom-right-radius: 12rem;
+  }
+}

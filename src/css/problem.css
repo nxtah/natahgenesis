@@ -1,0 +1,214 @@
+/* Perbesar width line agar tetap proporsional dengan list */
+.problem-list-line {
+  width: 98%;
+  height: 0.80px;
+  background: black;
+  border-radius: 1px;
+  transform-origin: center left;
+  margin-top: 0.2em;
+  display: block;
+  transform: scaleX(0);
+  opacity: 0.2;
+  transition: transform 0.6s cubic-bezier(.77,0,.18,1), opacity 0.3s;
+}
+
+.problem-list-line--active {
+  transform: scaleX(1);
+}
+
+
+.problem-list-item {
+  font-family: 'Migra', serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--black);
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0.5em 0;
+  line-height: 1.15;
+  display: flex;
+  align-items: flex-start;
+  width: 100vw;
+  max-width: 100vw;
+  gap: 0;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.problem-list-number {
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--black);
+  opacity: 0.18;
+  min-width: 2.2em;
+  max-width: 2.2em;
+  text-align: right;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  user-select: none;
+  display: block;
+  flex-shrink: 0;
+  margin-left: 2vw;
+}
+
+.problem-list-center {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.problem-list-text {
+  display: block;
+  text-align: center;
+  width: 100%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+
+.problem-list-item--with-number {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+
+.problem-list-text {
+  flex: 1 1 0;
+  display: block;
+  text-align: left;
+}
+
+@media (min-width: 480px) {
+  .problem-list-item,
+  .problem-list-number {
+    font-size: 2.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .problem-list-item,
+  .problem-list-number {
+    font-size: 3.5rem;
+  }
+}
+
+
+/* Root color variable for white */
+.problem-section {
+  width: 100vw;
+  min-height: 200svh;
+  padding: 4rem 0 10rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+
+}
+
+.problem-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.problem-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 2.2rem;
+  color: var(--black);
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.problem-heading {
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-top: 16rem;
+  margin-bottom: 28rem;
+  color: var(--black);
+  text-align: center;
+  letter-spacing: -0.01em;
+  will-change: opacity, filter;
+}
+
+/* Inline helper: each line can become a block on mobile */
+.problem-line {
+  display: inline; /* default - keeps desktop flow */
+}
+
+/* Desktop-only break element (hidden by default, shown only on desktop) */
+.desktop-break {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .problem-heading {
+    font-size: clamp(2rem, 10vw, 4rem);
+  }
+}
+
+/* MOBILE-ONLY: stack heading words and increase font size for small phones */
+@media (max-width: 640px) {
+  .problem-heading {
+    /* Bigger and tighter on small phones */
+    font-size: clamp(4rem, 18vw, 8rem);
+    line-height: 1.0;
+    margin-top: 5rem; /* more top spacing as requested */
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .problem-line {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* DESKTOP: explicitly restore original desktop spacing and sizing to ensure mobile edits don't affect larger screens */
+@media (min-width: 769px) {
+  .problem-heading {
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 1.1;
+    margin-top: 16rem;
+    margin-bottom: 28rem;
+    text-align: center;
+  }
+
+  /* Keep inline flow for heading words on desktop */
+  .problem-line {
+    display: inline;
+  }
+
+  /* Desktop: show the small <br> helpers to create desired line breaks */
+  .desktop-break {
+    display: block;
+    line-height: 0;
+    margin: 0;
+    height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .problem-section {
+    /* Added extra vertical spacing on mobile so the section breathes more */
+    padding: 6rem 0 5rem 0; /* top 6rem, bottom 5rem (was 2.5rem / 2rem) */
+  }
+  .problem-title {
+    font-size: 1.4rem;
+  }
+}

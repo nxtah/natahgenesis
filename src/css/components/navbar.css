@@ -1,0 +1,719 @@
+.navbar-mobile-row {
+  display: contents;
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.18rem;
+    max-width: 100vw;
+    width: 100vw;
+    left: 0;
+    right: 0;
+    top: 0.5rem;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+  }
+  .navbar-section.navbar-logo-bg {
+    margin: 0;
+    margin-bottom: 0 !important;
+    justify-content: center;
+    width: 100%;
+    border-radius: 0.2rem;
+    padding-left: 1.2em !important;
+    padding-right: 1.2em !important;
+  }
+
+  .navbar-mobile-row {
+    display: flex;
+    flex-direction: row;
+    gap: 0.05rem;
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+  }
+  .navbar-center,
+  .navbar-chatbot {
+    width: 50%;
+    border-radius: 0.2rem;
+    justify-content: center;
+    margin: 0.19rem;
+    margin-top: 0.19rem;
+  }
+
+  .navbar-section-title {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .navbar-section-title.active {
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }}
+
+  /* Base: hide hamburger by default and prepare transitions (desktop default) */
+  .navbar-hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    width: 44px;
+    height: 44px;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 260ms cubic-bezier(.2,.9,.28,1), transform 260ms cubic-bezier(.2,.9,.28,1);
+    pointer-events: none;
+  }
+  .navbar-hamburger span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    margin: 3px 0;
+    border-radius: 2px;
+  }
+
+  .navbar-hamburger-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+  }
+
+  /* DESKTOP: explicitly restore original desktop navbar layout and ignore compact state */
+  @media (min-width: 769px) {
+    /* Keep original row layout */
+    .navbar {
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      top: 2rem !important;
+      padding: 0 !important;
+    }
+
+    /* Ensure center row is visible and unaffected by compact class */
+    .navbar-mobile-row {
+      display: contents !important;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: auto !important;
+      gap: 0.2rem !important;
+      width: auto !important;
+      margin: 0 !important;
+      justify-content: center !important;
+    }
+
+    /* Hide hamburger wrapper and button on desktop completely */
+    .navbar-hamburger-wrap {
+      display: none !important;
+    }
+    .navbar-hamburger {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* restore spacing and sizing */
+    .navbar-section.navbar-logo-bg {
+      padding-right: 0.05em !important; /* restore original spacing on desktop */
+    }
+    .navbar-center, .navbar-chatbot {
+      width: auto !important;
+      margin: 0 !important;
+      justify-content: center !important;
+    }
+  }
+
+  /* Mobile-only: show hamburger and position it to the right of the logo, vertically centered */
+  @media (max-width: 768px) {
+    /* Top group: logo and hamburger centered and aligned */
+    .navbar-top {
+      display: flex;
+      align-items: center;
+      justify-content: center; /* center group in viewport */
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.25rem 0;
+    }
+
+    .navbar-hamburger {
+      display: inline-flex;
+      position: static; /* inline next to logo */
+      transform: none;
+      margin-left: 0.25rem;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* When compact, hide lower row and keep the top group visible */
+    .navbar--compact .navbar-hamburger {
+      opacity: 1;
+      transform: none;
+    }
+
+    .navbar-mobile-row {
+      transition: opacity 200ms ease, transform 220ms cubic-bezier(.2,.9,.28,1);
+    }
+    .navbar--compact .navbar-mobile-row {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+
+    /* Keep logo block inline and minimal so hamburger sits right beside it */
+    .navbar-top .navbar-section.navbar-logo-bg,
+    .navbar-top .navbar-section.navbar-hamburger-bg {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      width: auto !important;
+      padding-left: 0.6rem !important;
+      padding-right: 0.6rem !important;
+    }
+
+    /* Keep logo padding minimal */
+    .navbar-section.navbar-logo-bg {
+      padding-right: 0.25rem;
+    }
+
+    /* Hamburger BG block: same sizing & treatment as .navbar-chatbot on mobile */
+    .navbar-section.navbar-hamburger-bg {
+      position: static;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 0.2rem;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 0.5rem 0.5rem; /* same as chatbot */
+      height: 2.6rem; /* match chatbot */
+      min-width: 44px; /* match chatbot */
+      max-width: 56px; /* allow same max width */
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 260ms cubic-bezier(.2,.9,.28,1), transform 260ms cubic-bezier(.2,.9,.28,1);
+    }
+
+    /* Inner bars sized to match the new block */
+    .navbar-section.navbar-hamburger-bg .navbar-hamburger span {
+      width: 18px;
+      height: 3px;
+      margin: 3px 0;
+      border-radius: 3px;
+    }
+
+    .navbar--compact .navbar-section.navbar-hamburger-bg {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    /* SAFEGUARD: ensure hamburger-wrap does not affect layout on desktop */
+    .navbar-hamburger-wrap { display: block; }
+
+    /* Button inside the block: normal positioned element */
+    .navbar-hamburger {
+      width: 100%;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      color: inherit;
+      opacity: 0.98;
+    }
+
+    /* New mobile SVG icon styling */
+    .navbar-hamburger-icon {
+      width: 18px;
+      height: 18px;
+      display: block;
+      fill: currentColor;
+      transition: transform 220ms cubic-bezier(.2,.9,.28,1);
+      transform-origin: center;
+    }
+    /* Subtle rotate when menu is open */
+    .navbar-hamburger.is-open .navbar-hamburger-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    body.project-modal-open-hide-navbar .navbar {
+      transform: translateY(-120%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 320ms cubic-bezier(.16,.84,.3,1), opacity 320ms;
+    }
+  }
+
+  .mobile-fullmenu {
+    position: fixed;
+    inset: 0;
+    /* Liquid glass fullscreen overlay */
+    background: linear-gradient(180deg, rgba(8,10,14,0.66), rgba(8,10,14,0.56));
+    backdrop-filter: blur(12px) saturate(130%);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
+    color: #fff;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    /* Left-align menu items while keeping the overall layout intact */
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 2.25rem 2.5rem 2.25rem 2.5rem; /* more left padding to emphasize left alignment */
+  }
+  .mobile-fullmenu-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    /* Square glass button — larger and more tactile */
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px; /* gentle rounding, not circular */
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #fff; /* icon color set to white */
+    font-size: 0; /* reset text sizing (we use svg icon) */
+    line-height: 0;
+    cursor: pointer;
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+  }
+  .mobile-fullmenu-close svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+  .mobile-fullmenu-close svg path {
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .mobile-fullmenu-close:focus {
+    outline: 3px solid rgba(34,197,94,0.12);
+    box-shadow: 0 8px 24px rgba(2,6,23,0.12);
+  }
+
+  /* Entrance animation on mount (overlay) */
+  @keyframes overlayFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .mobile-fullmenu { animation: overlayFade 360ms cubic-bezier(.16,.84,.3,1) both; will-change: opacity, transform; }
+
+  /* Menu items: staggered fade + gentle slide-up */
+  .mobile-fullmenu-content a {
+    opacity: 0;
+    transform: translate3d(0,8px,0);
+    animation: fadeSlideUp 420ms cubic-bezier(.16,.84,.3,1) both;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+  }
+  .mobile-fullmenu-content a:nth-child(1) { animation-delay: 180ms; }
+  .mobile-fullmenu-content a:nth-child(2) { animation-delay: 260ms; }
+  .mobile-fullmenu-content a:nth-child(3) { animation-delay: 340ms; }
+
+  /* Footer wrapper fades slightly after content */
+  .mobile-fullmenu-footer {
+    opacity: 0;
+    transform: translate3d(0,10px,0);
+    animation: fadeSlideUp 420ms cubic-bezier(.16,.84,.3,1) both;
+    animation-delay: 380ms;
+    will-change: opacity, transform;
+  }
+
+  /* Footer buttons individual slide-in (left -> right, right -> left) */
+  .mobile-fullmenu-cta {
+    opacity: 0;
+    transform: translate3d(-12px,0,0);
+    animation: slideInFromLeft 480ms cubic-bezier(.16,.84,.3,1) both;
+    animation-delay: 420ms; /* sync with footer entrance */
+    will-change: opacity, transform;
+  }
+  .mobile-fullmenu-chatbot {
+    opacity: 0;
+    transform: translate3d(12px,0,0);
+    animation: slideInFromRight 520ms cubic-bezier(.16,.84,.3,1) both;
+    animation-delay: 460ms; /* slight stagger to the right button */
+    will-change: opacity, transform;
+  }
+
+  @keyframes slideInFromLeft {
+    from { opacity: 0; transform: translate3d(-12px,0,0); }
+    to   { opacity: 1; transform: translate3d(0,0,0); }
+  }
+  @keyframes slideInFromRight {
+    from { opacity: 0; transform: translate3d(12px,0,0); }
+    to   { opacity: 1; transform: translate3d(0,0,0); }
+  }
+
+  /* Closing animations */
+  @keyframes overlayHide {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(8px); }
+  }
+  @keyframes fadeSlideDown {
+    from { opacity: 1; transform: translate3d(0,0,0); }
+    to   { opacity: 0; transform: translate3d(0,12px,0); }
+  }
+  @keyframes slideOutToLeft {
+    from { opacity: 1; transform: translate3d(0,0,0); }
+    to   { opacity: 0; transform: translate3d(-12px,0,0); }
+  }
+  @keyframes slideOutToRight {
+    from { opacity: 1; transform: translate3d(0,0,0); }
+    to   { opacity: 0; transform: translate3d(12px,0,0); }
+  }
+
+  /* Apply closing animations when overlay has closing class */
+  .mobile-fullmenu--closing { animation: overlayHide 420ms cubic-bezier(.16,.84,.3,1) both; pointer-events: none; }
+  .mobile-fullmenu--closing .mobile-fullmenu-content a { animation: fadeSlideDown 320ms cubic-bezier(.16,.84,.3,1) both; }
+  .mobile-fullmenu--closing .mobile-fullmenu-content a:nth-child(1) { animation-delay: 0ms; }
+  .mobile-fullmenu--closing .mobile-fullmenu-content a:nth-child(2) { animation-delay: 30ms; }
+  .mobile-fullmenu--closing .mobile-fullmenu-content a:nth-child(3) { animation-delay: 60ms; }
+  .mobile-fullmenu--closing .mobile-fullmenu-footer { animation: fadeSlideDown 320ms cubic-bezier(.16,.84,.3,1) both; animation-delay: 80ms; }
+  .mobile-fullmenu--closing .mobile-fullmenu-cta { animation: slideOutToLeft 320ms cubic-bezier(.16,.84,.3,1) both; animation-delay: 80ms; }
+  .mobile-fullmenu--closing .mobile-fullmenu-chatbot { animation: slideOutToRight 320ms cubic-bezier(.16,.84,.3,1) both; animation-delay: 120ms; }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-fullmenu, .mobile-fullmenu-content a, .mobile-fullmenu-footer, .mobile-fullmenu-cta, .mobile-fullmenu-chatbot { animation: none !important; transition: none !important; opacity:1 !important; transform:none !important; }
+  }
+
+  /* Content wrapper to contain left-aligned links */
+  .mobile-fullmenu-content {
+    /* Align content closer to the left edge (flush feel) */
+    margin-left: 0rem; /* smaller left inset */
+    width: calc(100% - 0rem - 2.5rem);
+    max-width: 900px;
+  }
+
+  /* Footer buttons (left-bottom) — same size and rounded */
+  .mobile-fullmenu-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.25rem;
+    display: flex;
+    gap: 0.6rem;
+    padding: 0 1.25rem; /* align with overlay padding */
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  /* Large square glass buttons each take half the available menu width */
+  .mobile-fullmenu-cta,
+  .mobile-fullmenu-chatbot {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(50% - 0.3rem);
+    aspect-ratio: 1 / 1; /* keep them square */
+    padding: 0.5rem 0;
+    border-radius: 14px;
+    font-family: 'Migra', serif;
+    font-size: 1rem;
+    line-height: 1;
+    text-decoration: none;
+    color: #fff; /* keep label/icon readable on dark overlay */
+    /* darker glass background to avoid perceived white flash when opening */
+    background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18));
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+    transition: transform 220ms cubic-bezier(.2,.9,.28,1), ; /* avoid bg transitions */
+  }
+
+  .mobile-fullmenu-cta svg,
+  .mobile-fullmenu-chatbot svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .mobile-fullmenu-label {
+    display: block;
+    width: 100%;
+    text-align: left; /* left aligned as requested */
+    padding-left: 12px; /* small inset so text isn't glued to the icon */
+    margin-top: 12px;
+    /* Bigger, more prominent and responsive (increased) */
+    font-size: clamp(1.4rem, 8vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.02;
+    color: var(--white);
+    word-break: break-word;
+  }
+
+  /* Right-aligned variant for the chatbot label inside its square */
+  .mobile-fullmenu-label--right {
+    text-align: right !important;
+    padding-left: 0 !important;
+    padding-right: 12px !important;
+  }
+  .mobile-fullmenu-cta:focus,
+  .mobile-fullmenu-chatbot:focus {
+    outline: 3px solid rgba(34,197,94,0.12);
+    box-shadow: 0 8px 24px rgba(2,6,23,0.12);
+  }
+
+  /* visually-hidden helper (small, local) */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+  .mobile-fullmenu-content a {
+    color: #fff;
+    font-family: 'Migra', serif; /* use Migra for menu */
+    font-size: clamp(2.4rem, 9vw, 4.2rem); /* larger and responsive */
+    text-decoration: none;
+    padding: 0.4rem 0; /* tighter vertical padding for denser layout */
+    display: block;
+    width: 100%;
+    text-align: left; /* left aligned */
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+  }
+
+  .mobile-fullmenu-content a + a {
+    margin-top: 0.125rem; /* very tight spacing between items */
+  }
+
+/* Navbar font color dynamic */
+.navbar-light {
+  color: #fff !important;
+}
+.navbar-light .navbar-logo,
+.navbar-light .navbar-section-title,
+.navbar-light .navbar-whatsapp {
+  color: #fff !important;
+}
+
+.navbar-dark {
+  color: #181818 !important;
+}
+.navbar-dark .navbar-logo,
+.navbar-dark .navbar-section-title,
+.navbar-dark .navbar-whatsapp {
+  color: #181818 !important;
+}
+
+
+/* Redesigned floating glassmorphism navbar for natah-genesis */
+.navbar {
+  position: fixed;
+  top: 2rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  z-index: 100;
+  font-family: 'NeueMontreal', sans-serif;
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+.navbar-section {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 0.2rem;
+  border: 1.3px solid rgba(255,255,255,0.18);
+  padding: 0.5em 1.1em;
+  height: 2.6rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)) !important;
+  border: 2px solid rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+}
+
+/* Khusus background logo navbar lebih ramping */
+.navbar-section.navbar-logo-bg {
+  max-width: 150px;  
+  width: fit-content;
+  padding-left: 0.05em;
+  padding-right: 0.05em;
+  justify-content: center;
+  height: 2.6rem;
+  align-items: center;
+  border-radius: 0.2rem;
+  user-select: none;
+  margin: 0;
+
+  /* Liquid glass background (visual only) */
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+
+.navbar-center {
+  flex: 1 1 1;
+  min-width: 0;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 0.2rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 0.5em 1.1em;
+  height: 2.6rem;
+  width: fit-content;
+}
+
+.navbar-whatsapp {
+  margin-left: 1.2rem;
+  display: flex;
+  align-items: center;
+  background: #25d366;
+  border: 0.5px solid rgba(0, 0, 0, 0.608);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem 0.3rem 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+
+.navbar-whatsapp:hover {
+  background: #1ebc59;
+  box-shadow: 0 4px 16px 0 rgba(37,211,102,0.16);
+}
+
+.navbar-chatbot {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 0.2rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 0.5rem 0.5rem;
+  height: 2.6rem;
+  width: fit-content;
+  min-width: 44px;
+  max-width: 56px;
+}
+
+.navbar-chatbot img {
+  width: 2rem;
+  height: 2rem;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
+  transition: filter 0.18s;
+}
+
+.navbar-chatbot:hover img {
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.16));
+}
+
+/* ...old styles removed, replaced by new design above... */
+
+/* DESKTOP-RESET: Force original desktop navbar layout and hide mobile-only elements.
+   This block uses !important to ensure desktop screens are not affected by mobile rules. */
+@media (min-width: 769px) {
+  .navbar {
+    position: fixed !important;
+    top: 2rem !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.2rem !important;
+    padding: 0 !important;
+    z-index: 100 !important;
+  }
+
+  .navbar-section {
+    padding: 0.5em 1.1em !important;
+    height: 2.6rem !important;
+    border-radius: 0.2rem !important;
+    background: rgba(255,255,255,0.25) !important;
+    border: 1.3px solid rgba(255,255,255,0.18) !important;
+  }
+
+  .navbar-section.navbar-logo-bg {
+    max-width: 150px !important;
+    width: fit-content !important;
+    padding-left: 0.05em !important;
+    padding-right: 0.05em !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure center row is visible and unchanged */
+  .navbar-mobile-row {
+    display: contents !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    gap: 0.2rem !important;
+    width: auto !important;
+    margin: 0 !important;
+    justify-content: center !important;
+  }
+
+  /* Hide any mobile-only hamburger block on desktop (but keep the logo wrapper transparent) */
+  .navbar-hamburger, .navbar-hamburger-wrap, .navbar-section.navbar-hamburger-bg {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Make the navbar-top wrapper transparent on desktop so logo sits in the same place */
+  .navbar-top {
+    display: contents !important;
+  }
+
+  .navbar-center, .navbar-chatbot {
+    width: auto !important;
+    margin: 0 !important;
+    justify-content: center !important;
+  }
+}

@@ -1,0 +1,527 @@
+/* Projects section - mobile-first styles */
+.projects-section {
+  --gap: 1rem;
+  /* Dark background for the Projects section */
+  background-color: var(--black);
+  color: var(--white);
+  /* Add comfortable bottom spacing on devices with safe area insets */
+  padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+}
+
+/* Mobile-only: increase bottom spacing so section feels longer on small screens */
+@media (max-width: 768px) {
+  .projects-section {
+    padding-bottom: calc(10rem + env(safe-area-inset-bottom));
+  }
+}
+
+.projects-header {
+  padding-top: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 5rem;
+  font-family: 'Migra', serif;
+
+}
+
+/* Entrance animation: heading */
+.projects-header .projects-heading {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s cubic-bezier(.22, .9, .31, 1), transform 0.9s cubic-bezier(.22, .9, .31, 1);
+  will-change: opacity, transform;
+}
+
+.projects-header.is-visible .projects-heading {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+  .projects-header .projects-heading,
+  .projects-header .projects-sub {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.projects-heading {
+  font-family: 'Migra', serif;
+  /* Bigger heading for stronger emphasis (mobile + desktop) */
+  font-size: clamp(3rem, 11vw, 8rem);
+  line-height: 1.02;
+  margin: 0 0 0.6rem 0;
+  color: var(--white);
+}
+
+.projects-sub {
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  color: var(--white);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Grid / List (mobile: single column stacked) */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+}
+
+.project-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(2, 6, 23, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
+}
+
+.project-card:focus {
+  outline: none;
+  /* subtle glow on focus */
+  box-shadow: 0 16px 44px rgba(2, 6, 23, 0.12), 0 0 24px rgba(255, 255, 255, 0.04);
+  transform: none;
+  /* remove move-up */
+}
+
+.project-card:hover {
+  /* Glow effect instead of moving up */
+  transform: none;
+  box-shadow: 0 20px 60px rgba(2, 6, 23, 0.12), 0 0 28px rgba(255, 255, 255, 0.06);
+}
+
+.project-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* nice cinematic crop */
+  overflow: hidden;
+  background: #000;
+}
+
+.project-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.15));
+}
+
+.project-play {
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.94);
+  background: rgba(0, 0, 0, 0.44);
+  padding: 0.45rem 0.6rem;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.project-body {
+  padding: 0.9rem 1rem 1.1rem 1rem;
+}
+
+.project-title {
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  /* Larger responsive title for better emphasis */
+  font-size: clamp(1.4rem, 4.8vw, 2rem);
+  font-weight: 800;
+  line-height: 1.02;
+  margin: 0 0 1rem 0;
+  color: var(--white);
+}
+
+.project-desc {
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  margin: 0;
+  color: var(--white);
+  /* reduced opacity for secondary text */
+  font-size: 0.95rem;
+  line-height: 1.25;
+  opacity: 0.3;
+}
+
+
+
+/* Modal */
+.projects-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 6, 23, 0.72);
+  z-index: 70;
+  padding: 1.5rem;
+}
+
+/* Mobile-only: ensure modal sits above About section and other stacking contexts */
+@media (max-width: 768px) {
+  .projects-modal {
+    z-index: 1001;
+    /* higher than about/other sections on mobile */
+  }
+}
+
+/* Mobile-only: when modal open, lock background scroll and preserve scroll position */
+@media (max-width: 768px) {
+  body.project-modal-open-no-scroll {
+    overflow: hidden !important;
+    width: 100%;
+    /* we apply inline position:fixed & top in JS to preserve scroll position */
+  }
+}
+
+/* Inner card */
+.projects-modal-inner {
+  width: 100%;
+  /* Larger container for desktop/tablet */
+  max-width: 1400px;
+  /* Liquid glass look: subtle translucent gradient + border + blur */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 28px 110px rgba(2, 6, 23, 0.36);
+  position: relative;
+  overflow: hidden;
+  transform-origin: center center;
+  opacity: 0;
+  transform: translateY(10px) scale(0.995);
+  transition: opacity 360ms cubic-bezier(.22, .9, .31, 1), transform 360ms cubic-bezier(.22, .9, .31, 1);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  color: var(--white);
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  /* modal body font */
+}
+
+.projects-modal.opened .projects-modal-inner {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Close button (prominent, accessible) */
+.projects-modal-close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  font-size: 1.05rem;
+  color: var(--white);
+  backdrop-filter: blur(4px);
+}
+
+.projects-modal-close:focus {
+  outline: 3px solid rgba(34, 197, 94, 0.16);
+  box-shadow: 0 8px 28px rgba(2, 6, 23, 0.16);
+}
+
+/* Grid layout: media left, content right on large screens */
+.projects-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.projects-modal-media {
+  width: 100%;
+}
+
+.projects-modal-video {
+  width: 100%;
+  height: clamp(280px, 44vh, 680px);
+  background: #000;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
+}
+
+.projects-modal-content {
+  padding: 0.5rem 0.75rem;
+}
+
+.projects-modal-title {
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  /* Larger, responsive modal title to match project cards */
+  font-size: clamp(1.8rem, 4.4vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.02;
+  margin: 0 0 0.5rem 0;
+  color: var(--white);
+}
+
+.projects-modal-desc {
+  margin: 0.6rem 0 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  /* reduced opacity for secondary text */
+  line-height: 1.35;
+  font-size: 1rem;
+}
+
+.projects-modal-actions {
+  margin-top: 0.9rem;
+}
+
+/* Mobile & small tablets: ensure modal has safe spacing and is scrollable so it doesn't touch top/bottom */
+@media (max-width: 900px) {
+  .projects-modal {
+    padding: 1rem;
+    /* more compact padding on small screens */
+    align-items: center;
+    /* center vertically */
+  }
+
+  .projects-modal-inner {
+    width: calc(100% - 2rem);
+    max-width: 720px;
+    /* Allow modal to use more vertical space while keeping small breathing room */
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .projects-modal-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* Make the media larger on mobile so modal feels taller */
+  .projects-modal-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* force landscape */
+    height: auto;
+    max-height: 56vh;
+    /* responsive cap */
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .projects-modal-content {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+/* Modal consultation button: bright liquid-glass rectangular rounded */
+.projects-modal-actions .btn-modal-consult {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.8rem;
+  /* wider for longer look */
+  border-radius: 3px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)) !important;
+  border: 2px solid rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+  color: var(--white);
+  font-weight: 700;
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 12px 40px rgba(2, 6, 23, 0.08);
+  transition: transform 200ms cubic-bezier(.16, .84, .3, 1), box-shadow 200ms ease;
+  min-width: 260px;
+  /* make it noticeably longer */
+  max-width: 100%;
+}
+
+.projects-modal-actions .btn-modal-consult:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.10);
+}
+
+.projects-modal-actions .btn-modal-consult:focus {
+  outline: 3px solid rgba(34, 197, 94, 0.12);
+  box-shadow: 0 12px 36px rgba(2, 6, 23, 0.14);
+}
+
+/* Make button full width on very small screens for better tap target */
+@media (max-width: 520px) {
+  .projects-modal-actions .btn-modal-consult {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+
+@media (min-width: 900px) {
+  .projects-modal-grid {
+    grid-template-columns: 1fr 520px;
+    /* larger sidebar for content */
+    align-items: stretch;
+    /* ensure columns have equal height */
+    gap: 1.25rem;
+  }
+
+  .projects-modal-content {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    /* make content column flex so actions can push to bottom */
+  }
+
+  .projects-modal-media {
+    display: flex;
+    align-items: center;
+    /* center media vertically within its column */
+    justify-content: center;
+  }
+
+  .projects-modal-video {
+    max-height: 100%;
+    /* allow video to adapt to column height */
+    height: auto;
+  }
+
+  .projects-modal-inner {
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+
+  /* Ensure actions sit at the bottom of the content column and stretch to content width */
+  .projects-modal-actions {
+    margin-top: auto;
+    width: 100%;
+    /* make actions full width of the right column */
+    display: block;
+  }
+
+  /* Make the modal button stretch to the content width on desktop */
+  .projects-modal-actions .btn-modal-consult {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    justify-content: center;
+    /* center label inside the full-width button */
+  }
+
+  /* Larger button text & padding on desktop for prominence */
+  .projects-modal-actions .btn-modal-consult {
+    font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+    padding: 0.95rem 2.4rem;
+  }
+
+  /* Desktop spacing: add breathing room between modal title and description */
+  .projects-modal-title {
+    margin-bottom: 3rem;
+  }
+
+  /* Desktop: project cards use light liquid-glass treatment */
+  .project-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: 0 8px 26px rgba(2, 6, 23, 0.06);
+    transition: transform 260ms cubic-bezier(.16, .84, .3, 1), box-shadow 260ms ease;
+  }
+
+  .project-card:hover {
+    /* Glow effect instead of moving up */
+    transform: none;
+    box-shadow: 0 32px 100px rgba(2, 6, 23, 0.18), 0 0 36px rgba(255, 255, 255, 0.06);
+  }
+
+  /* Keep project text readable on glass: use brand white */
+  .project-card .project-title,
+  .project-card .project-desc {
+    color: var(--white);
+  }
+
+  /* Play badge: dark translucent bg with white text for contrast */
+  .project-play {
+    background: rgba(0, 0, 0, 0.44);
+    color: var(--white);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-modal-inner {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Larger screens: 2 columns → 3 columns */
+@media (min-width: 700px) {
+  .projects-grid {
+    /* Responsive 2-column grid that adapts to viewport */
+    grid-template-columns: repeat(2, minmax(320px, 1fr));
+    gap: 0.6rem;
+    /* keep tight spacing */
+  }
+
+  /* Make cards larger-looking on tablet and up */
+  .project-media {
+    aspect-ratio: 3 / 2;
+    /* taller media for a more prominent look */
+  }
+
+  .project-body {
+    padding: 1.5rem 1.75rem 1.8rem 1.75rem;
+    /* slightly larger padding */
+  }
+
+  .project-title {
+    font-size: clamp(2rem, 4.2vw, 3.4rem);
+  }
+}
+
+@media (min-width: 1200px) {
+
+  /* Keep two-column layout even on very wide screens so cards stay large */
+  .projects-grid {
+    /* Flexible minimum that adapts to container width */
+    grid-template-columns: repeat(2, minmax(400px, 1fr));
+    gap: 1rem;
+    /* keep gap */
+  }
+
+  .projects-section {
+    --gap: 1rem;
+  }
+
+  .projects-heading {
+    /* Larger heading on very wide screens */
+    font-size: clamp(4rem, 6vw, 8rem);
+  }
+
+  /* Extra emphasis on card sizes */
+  .project-media {
+    aspect-ratio: 3 / 2;
+  }
+
+  .project-body {
+    padding: 1.75rem 2rem 2rem 2rem;
+  }
+
+  .project-title {
+    font-size: clamp(2.2rem, 3vw, 4rem);
+  }
+}

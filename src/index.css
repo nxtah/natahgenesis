@@ -1,0 +1,51 @@
+:root {
+  --white: #FBFBF4;
+  --black: #18181b;
+  --blue: #3a3aff;
+}
+
+
+@font-face {
+  font-family: 'Migra';
+  src: url('/fonts/migra-light.otf') format('opentype');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('/fonts/neuemontreal.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Removed height: 100% and overflow-y: auto to ensure scroll belongs to window, not body */
+}
+
+#webgl {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+.hero,
+.problem,
+.hero * {
+  background: transparent !important;
+}

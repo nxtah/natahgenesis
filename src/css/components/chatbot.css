@@ -1,0 +1,240 @@
+.chatbot-container {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: 380px;
+  height: 520px;
+  border-radius: 14px;
+  overflow: hidden;
+  /* Liquid glass background */
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 40px rgba(2,6,23,0.45), inset 0 1px 0 rgba(255,255,255,0.03);
+  z-index: 4000;
+  transform: translateY(6px);
+  opacity: 0;
+  transition: transform 220ms cubic-bezier(.16,.84,.3,1), opacity 180ms ease;
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  backdrop-filter: blur(10px) saturate(130%);
+  color: var(--white);
+}
+
+.chatbot-container--open {
+  transform: translateY(0);
+  opacity: 1;
+  will-change: transform, opacity;
+  /* Mobile / default gentle enter animation */
+  animation: chatbotEnter 420ms cubic-bezier(.16,.84,.3,1) both;
+}
+
+/* Backdrop that dims and slightly blurs the page behind the chat */
+.chatbot-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.28); /* slightly less dark */
+  backdrop-filter: blur(3px) saturate(110%); /* reduced blur */
+  -webkit-backdrop-filter: blur(3px) saturate(110%);
+  opacity: 0;
+  transition: opacity 220ms cubic-bezier(.16,.84,.3,1);
+  z-index: 3900; /* sits below .chatbot-container (4000) */
+}
+.chatbot-backdrop--open { opacity: 1; }
+
+/* Animations */
+@keyframes chatbotEnter {
+  from { opacity: 0; transform: translateY(12px) scale(0.992); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes backdropFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes closeButtonEnter {
+  from { opacity: 0; transform: translateY(-6px) translateX(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+}
+
+/* Desktop-specific smoother enter (subtle overshoot and settle) */
+@media (min-width: 769px) {
+  .chatbot-container--open {
+    animation: chatbotEnterDesktop 520ms cubic-bezier(.2,.9,.28,1) both;
+  }
+  .chatbot-backdrop--open { animation: backdropFade 360ms cubic-bezier(.16,.84,.3,1) both; }
+  .chatbot-close--outside { animation: closeButtonEnter 460ms cubic-bezier(.2,.9,.28,1) both; animation-delay: 80ms; }
+}
+
+@keyframes chatbotEnterDesktop {
+  0%   { opacity: 0; transform: translate(-50%, -56%) scale(0.988); }
+  60%  { transform: translate(-50%, -50.8%) scale(1.006); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Exit animations (smoother) */
+.chatbot-container--closing {
+  animation: chatbotExit 460ms cubic-bezier(.22,.99,.38,1) both;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.chatbot-backdrop--closing {
+  animation: backdropFadeOut 380ms cubic-bezier(.16,.84,.24,1) both;
+  pointer-events: none;
+}
+.chatbot-close--outside--closing {
+  animation: closeButtonExit 360ms cubic-bezier(.22,.99,.38,1) both;
+}
+
+@keyframes chatbotExit {
+  /* mobile / general: gentle fade + downward drift + slight scale down */
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  50%  { transform: translateY(6px) scale(0.996); }
+  to   { opacity: 0; transform: translateY(14px) scale(0.992); }
+}
+
+@keyframes chatbotExitDesktop {
+  /* desktop: scale down + fade with soft ease and slight lift for nicer motion */
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  35%  { transform: translate(-50%, -50.6%) scale(0.998); }
+  100% { opacity: 0; transform: translate(-50%, -48%) scale(0.992); }
+}
+
+@keyframes backdropFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes closeButtonExit {
+  from { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-10px) translateX(10px) scale(0.96); }
+}
+
+@media (min-width: 769px) {
+  .chatbot-container--closing { animation-name: chatbotExitDesktop; animation-duration: 520ms; }
+  .chatbot-backdrop--closing { animation-duration: 420ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-container { transition: none !important; animation: none !important; }
+  .chatbot-backdrop { transition: none !important; animation: none !important; }
+  .chatbot-close--outside { animation: none !important; }
+}
+
+.botpress-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: transparent;
+}
+
+.chatbot-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chatbot-close:focus {
+  outline: 3px solid rgba(34,197,94,0.12);
+  box-shadow: 0 8px 24px rgba(2,6,23,0.12);
+}
+
+/* Desktop: show outside floating close, hide inside one */
+@media (min-width: 769px) {
+  .chatbot-close--inside { display: none; }
+
+  .chatbot-close--outside {
+    display: inline-flex;
+    position: fixed;
+    z-index: 4100; /* above modal */
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    /* Dark glass style */
+    background: linear-gradient(180deg, rgba(0,0,0,0.88), rgba(0,0,0,0.72));
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #fff;
+    /* moved further right and slightly down */
+    right: calc(50% - (min(720px, 86vw) / 2) - 56px);
+    top: calc(50% - (min(640px, 80vh) / 2) - 2px);
+    box-shadow: 0 10px 30px rgba(2,6,23,0.36);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .chatbot-close--outside:focus {
+    outline: 3px solid rgba(34,197,94,0.12);
+    box-shadow: 0 14px 40px rgba(2,6,23,0.2);
+  }
+}
+
+/* Mobile: fullscreen experience */
+@media (max-width: 768px) {
+  .chatbot-container {
+    inset: 0;
+    position: fixed;
+    width: 100vw;
+    /* Use --vh set by JS for reliable mobile height, fallback to 100dvh then 100vh */
+    height: calc(var(--vh, 1vh) * 100);
+    max-height: calc(var(--vh, 1vh) * 100);
+    min-height: calc(var(--vh, 1vh) * 100);
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    transform: none; /* avoid small translate used for enter animation */
+    animation: none; /* simpler enter for fullscreen */
+  }
+
+  /* Simple fade for fullscreen mobile entry */
+  .chatbot-container--open { animation: chatbotEnterMobile 360ms cubic-bezier(.16,.84,.3,1) both; }
+  @keyframes chatbotEnterMobile { from { opacity: 0; } to { opacity: 1; } }
+
+  .chatbot-close {
+    top: 14px;
+    right: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 28px;
+  }
+}
+
+/* Desktop: center the chatbot modal (larger, modal-like) */
+@media (min-width: 769px) {
+  .chatbot-container {
+    left: 50%;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -48%);
+    width: min(720px, 86vw);
+    height: min(640px, 80vh);
+    border-radius: 16px;
+    padding: 0;
+  }
+  /* When open, settle exactly at center (override translateY from base state) */
+  .chatbot-container--open {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-container { transition: none !important; }
+}

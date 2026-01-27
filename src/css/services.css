@@ -1,0 +1,328 @@
+.services-main-heading {
+	font-family: 'Migra', serif;
+	color: inherit;
+	/* color set on section so we can transition it safely */
+	font-size: clamp(2.5rem, 8vw, 6rem);
+	line-height: 1;
+	transition: color 0.45s ease;
+}
+
+/* Ensure section has safe default background and color, transition on scroll */
+.services-section {
+	background-color: var(--white);
+	color: var(--black);
+	transition: background-color 0.6s ease, color 0.45s ease;
+}
+
+/* Dark state (applied when section is scrolled into view) */
+.services-section.services--dark {
+	color: var(--white);
+}
+
+.services-section.services--dark .services-main-heading,
+.services-section.services--dark .services-list-head,
+.services-section.services--dark .services-list-sub {
+	color: var(--white);
+}
+
+/* Mobile CTA (inside list on mobile) */
+.services-mobile-cta {
+	display: block;
+	width: 100%;
+	background: linear-gradient(90deg, rgba(0, 122, 255, 1), rgba(34, 197, 94, 1));
+	color: var(--white);
+	padding: 0.6rem 1rem;
+	border-radius: 999px;
+	font-family: 'NeueMontreal', 'Inter', sans-serif;
+	font-weight: 800;
+	font-size: 0.95rem;
+	text-decoration: none;
+	text-align: center;
+	box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12);
+	margin-top: 1rem;
+}
+
+/* Desktop-left CTA (hidden on mobile) */
+.services-left-cta {
+	display: none;
+}
+
+@media (min-width: 640px) {
+	.services-left-cta {
+		display: inline-flex;
+		position: absolute;
+		/* left/top set dynamically via inline style */
+		background: linear-gradient(90deg, rgba(0, 122, 255, 1), rgba(34, 197, 94, 1));
+		color: var(--white);
+		padding: 0.9rem 1.5rem;
+		/* larger on tablet+ */
+		min-width: 220px;
+		border-radius: 999px;
+		font-family: 'NeueMontreal', 'Inter', sans-serif;
+		/* Use Montreal font */
+		font-weight: 800;
+		font-size: 1rem;
+		text-decoration: none;
+		box-shadow: 0 8px 24px rgba(2, 6, 23, 0.18);
+		transition: transform 0.18s ease, opacity 0.18s ease;
+		z-index: 15;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
+	.services-left-cta:hover {
+		transform: translateY(-4px);
+		opacity: 0.98;
+	}
+}
+
+/* List services container - mobile-first sizing and scrolling (centered vertically on mobile) */
+.services-list-container {
+	position: absolute;
+	right: 5%;
+	top: 50%;
+	bottom: auto;
+	/* center vertically */
+	transform: translateY(-50%);
+	width: clamp(320px, 90vw, 520px);
+	/* larger on mobile as requested */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* center vertically */
+	gap: 0.75rem;
+	/* tighter on mobile */
+	z-index: 10;
+	overflow-y: hidden;
+	/* enable vertical scrolling */
+	scroll-behavior: smooth;
+	padding: 1.5rem 0.75rem 3rem 0.75rem;
+	/* Mobile padding */
+	/* Mask untuk efek fade/blur di atas dan bawah */
+	-webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+	mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+@media (min-width: 640px) {
+
+	/* Restore desktop layout: full height pinned to bottom */
+	.services-list-container {
+		top: 0;
+		bottom: 0;
+		transform: none;
+		width: clamp(320px, 42%, 540px);
+		justify-content: flex-end;
+		padding: 2rem 0.5rem 4rem 0;
+	}
+}
+
+.services-list-item {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	/* Center content vertically for taller cards */
+	gap: 0.5rem;
+	padding: 1rem 0.75rem;
+	/* mobile padding */
+	min-height: 90px;
+	/* mobile-friendly height */
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.04);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.25s ease;
+	transform-style: preserve-3d;
+	will-change: transform;
+}
+
+
+.services-list-head {
+	font-family: 'Migra', serif;
+	/* Bigger, responsive title for list items */
+	font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+	font-weight: 800;
+	color: inherit;
+	/* inherit from section so we can transition color */
+	margin: 0;
+	line-height: 1.06;
+	/* Tighter line height for a punchier look */
+	letter-spacing: -0.01em;
+	transition: color 0.45s ease;
+}
+
+.services-list-sub {
+	font-family: 'NeueMontreal', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 400;
+	color: inherit;
+	/* inherit so visible on white bg */
+	opacity: 0.8;
+	margin: 0;
+	line-height: 1.4;
+	transition: color 0.45s ease;
+}
+
+/* Large-screen scaling: make the services list grow on wide viewports */
+@media (min-width: 1200px) {
+	.services-list-container {
+		width: clamp(420px, 36%, 780px);
+		gap: 1.25rem;
+		padding: 3rem 1rem 5rem 2rem;
+	}
+
+	.services-list-item {
+		min-height: 130px;
+		padding: 1.5rem 1.25rem;
+		gap: 0.75rem;
+	}
+
+	.services-list-head {
+		font-size: clamp(1.9rem, 2.8vw, 3rem);
+	}
+
+	.services-list-sub {
+		font-size: 1rem;
+	}
+}
+
+@media (min-width: 1600px) {
+	.services-list-container {
+		width: clamp(540px, 34%, 960px);
+		gap: 1.5rem;
+		padding: 4rem 1.5rem 6rem 3rem;
+	}
+
+	.services-list-item {
+		min-height: 150px;
+		padding: 2rem 1.5rem;
+	}
+
+	.services-list-head {
+		font-size: clamp(2.4rem, 2.2vw, 3.6rem);
+	}
+
+	.services-list-sub {
+		font-size: 1.05rem;
+	}
+}
+
+/* MOBILE-ONLY OVERRIDES (max-width: 640px)
+   - Move heading to the top (static flow) and center it
+   - Place list below the heading and widen it for mobile
+   - Keep all desktop rules untouched (this block applies only to small screens) */
+@media (max-width: 640px) {
+
+	/* Mobile: use black background and ensure contrast */
+	.services-section {
+		background-color: var(--black) !important;
+		padding-top: 2.5rem !important;
+		/* Let the section size naturally with its content on mobile but cover at least full viewport */
+		min-height: 100svh !important;
+		height: auto !important;
+		overflow: visible !important;
+		/* ensure content below isn't clipped */
+		padding-bottom: calc(6rem + env(safe-area-inset-bottom)) !important;
+		/* default space for CTA + safe area */
+	}
+
+	/* Container: switch layout to column so heading sits above the list */
+	.services-section>.w-full {
+		flex-direction: column !important;
+		align-items: center !important;
+		justify-content: flex-start !important;
+		min-height: auto !important;
+		padding-top: 0.75rem !important;
+	}
+
+	/* Heading: remove absolute centering and pin to top area */
+	.services-main-heading {
+		position: static !important;
+		top: auto !important;
+		left: auto !important;
+		transform: none !important;
+		margin: 2.5rem auto 0;
+		/* adjusted top spacing for mobile */
+		width: 92% !important;
+		text-align: center !important;
+		display: block !important;
+		/* Mobile-only: very large heading size */
+		font-size: 4.5rem !important;
+		line-height: 1 !important;
+		letter-spacing: -0.01em !important;
+	}
+
+	/* Start heading lines hidden on mobile to allow a smooth GSAP reveal */
+	.services-main-heading>span {
+		opacity: 0;
+		transform: translateY(12px);
+		transition: none;
+
+	}
+
+	/* Ensure heading lines are laid out as: "Solusi yang" / "kami tawarkan" */
+	.services-main-heading span {
+		margin-left: 0 !important;
+	}
+
+	.services-main-heading .yang-text {
+		display: inline !important;
+		margin-left: 0.25rem !important;
+	}
+
+	.services-main-heading .kami-text {
+		display: block !important;
+		margin-top: 0.25rem !important;
+		text-align: center !important;
+		margin-bottom: 5rem !important;
+	}
+
+	/* List: flow below heading and center horizontally */
+	.services-list-container {
+		position: relative !important;
+		top: auto !important;
+		bottom: auto !important;
+		transform: none !important;
+		margin: 1rem auto 0 !important;
+		/* space under heading */
+		left: 0 !important;
+		right: 0 !important;
+		width: clamp(320px, 92vw, 560px) !important;
+		/* wider on mobile */
+		justify-content: flex-start !important;
+		/* Let list expand naturally with content on mobile; avoid fixed vh that can clip */
+		padding-bottom: calc(6rem + env(safe-area-inset-bottom)) !important;
+		max-height: none !important;
+		overflow-y: visible !important;
+	}
+
+	/* Mobile CTA: keep full width and placed after list */
+	.services-mobile-cta {
+		display: block !important;
+		width: 100% !important;
+	}
+
+	/* Hide desktop CTA on mobile (precaution) */
+	.services-left-cta {
+		display: none !important;
+	}
+}
+
+/* Desktop: ensure section fills the viewport height exactly so animations and pinning keep full-screen layout */
+@media (min-width: 641px) {
+	.services-section {
+		height: auto !important;
+		min-height: 140vh !important;
+		/* Prefer bottom padding so extra space is below the content on desktop */
+		padding-top: 0 !important;
+		/* ensure we don't add top spacing on desktop */
+	}
+
+	/* Ensure inner container also maintains full height to avoid content collapse */
+	.services-section>.w-full {
+		min-height: 140vh !important;
+		padding-bottom: 0 !important;
+		/* internal spacing handled by section */
+	}
+}

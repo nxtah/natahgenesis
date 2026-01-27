@@ -1,0 +1,191 @@
+@tailwind components;
+@tailwind utilities;
+
+/* Shared styles for sections 5-9 */
+
+.section-padding {
+    @apply py-20 lg:py-32;
+    /* Prevent background showing through on mobile when users zoom out (clips minor overflow)
+       This is a non-layout change: only hides overflow to avoid revealing fixed background. */
+    overflow-x: hidden;
+}
+
+.text-migra {
+    font-family: 'Migra', sans-serif;
+}
+
+.text-montreal {
+    font-family: 'NeueMontreal';
+}
+
+/* Custom color classes - defined as standard classes, not used in @apply to avoid errors */
+.bg-natah-black {
+    background-color: var(--black);
+}
+
+.text-natah-white {
+    color: var(--white);
+}
+
+.bg-natah-white {
+    background-color: var(--white);
+}
+
+.text-natah-black {
+    color: var(--black);
+}
+
+/* GSAP Hidden state for ScrollTrigger */
+.gsap-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.gsap-reveal-stagger {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+
+.card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+/* Slightly thicker subtle border for feature cards (.reveal-card) */
+.reveal-card {
+    border-width: 1.6px; /* override Tailwind's 1px */
+    border-color: rgba(0,0,0,0.06);
+}
+
+/* Slightly stronger border on hover for emphasis */
+.reveal-card:hover {
+    border-color: rgba(0,0,0,0.09);
+}
+
+/* Timeline styles for Section 6 */
+.timeline-dot {
+    @apply w-6 h-6 rounded-full shadow-md relative z-10;
+    /* Custom colors applied as standard CSS properties */
+    background-color: var(--white);
+    border-width: 4px;
+    border-color: var(--black);
+}
+
+.timeline-line {
+    @apply absolute top-1/2 left-0 w-full h-1 -translate-y-1/2;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.timeline-line-vertical {
+    @apply absolute left-3 top-0 w-1 h-full;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Pricing styles for Section 7 */
+.price-card {
+    @apply relative p-8 rounded-3xl border transition-all duration-500 overflow-hidden;
+    /* Base border for all cards (subtle) */
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.04);
+    background-clip: padding-box;
+}
+
+/* Featured variant stays dark */
+.price-card--featured {
+    @apply shadow-2xl scale-105 z-10;
+    /* Custom colors */
+    border-color: var(--black);
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.price-card--standard {
+    @apply bg-white;
+    color: var(--black);
+}
+
+/* Thicker borders for left & right price cards on large screens only */
+@media (min-width: 1024px) {
+    /* Left column (1st) and Right column (3rd) in the 3-col layout */
+    .grid > .price-card:nth-child(3n+1),
+    .grid > .price-card:nth-child(3n) {
+        border-width: 2px;
+        border-color: rgba(0,0,0,0.12);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    /* Keep middle (2nd) card untouched */
+    .grid > .price-card:nth-child(3n+2) {
+        /* no changes */
+    }
+
+    /* Optional hover emphasis for side cards */
+    .grid > .price-card:nth-child(3n+1):hover,
+    .grid > .price-card:nth-child(3n):hover {
+        transform: translateY(-6px);
+    }
+}
+
+
+.promo-badge {
+    @apply absolute top-4 right-4 bg-red-500 text-white text-[10px] font-bold uppercase px-2 py-1 rounded-full;
+}
+
+/* Swipe hint for testimonials (Section 8) */
+.swipe-hint {
+    @apply rounded-full;
+    background: rgba(255,255,255,0.04);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.swipe-hint .chev {
+    transform: translateX(-4px);
+    animation: swipe 1s ease-in-out infinite;
+    display: inline-block;
+}
+
+.swipe-hint .chev.middle {
+    animation-delay: 0.08s;
+}
+
+@keyframes swipe {
+    0% { transform: translateX(-4px); opacity: 0.6; }
+    50% { transform: translateX(4px); opacity: 1; }
+    100% { transform: translateX(-4px); opacity: 0.6; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .swipe-hint .chev { animation: none; }
+}
+
+/* Liquid Glass Effect */
+.liquid-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Hide scrollbar for horizontal scroll areas */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.cursor-grab {
+    cursor: grab;
+}
+
+.cursor-grab:active {
+    cursor: grabbing;
+}
