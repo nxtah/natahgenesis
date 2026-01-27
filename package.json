@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "npm run build --workspace client",
+    "build": "vite build",
     "start": "npm run start --workspace server"
   },
   "dependencies": {
@@ -38,7 +38,6 @@
     "vite": "^6.4.1"
   },
   "workspaces": [
-    "client",
     "server"
   ]
 }
