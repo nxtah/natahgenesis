@@ -5,12 +5,13 @@ const fs = require('fs').promises;
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'projects.json');
+// --- PERUBAHAN HANYA DI SINI UNTUK VERCEL ---
+// process.cwd() mengacu pada root project (tempat vercel.json berada)
+const DATA_FILE = path.join(process.cwd(), 'api', 'data', 'projects.json');
+// --------------------------------------------
 
 function requireAdmin(req, res, next) {
-  // If PUBLIC_ADMIN=true we allow admin operations without header. Not for production use without caution.
   if (process.env.PUBLIC_ADMIN === 'true') return next();
-
   if (!process.env.ADMIN_API_KEY) return res.status(401).json({ error: 'ADMIN_API_KEY not set on server' });
   const key = req.get('x-admin-key');
   if (!key || key !== process.env.ADMIN_API_KEY) return res.status(401).json({ error: 'Unauthorized' });
@@ -98,7 +99,6 @@ router.delete('/:id', requireAdmin, async (req, res) => {
 
     const [removed] = projects.splice(idx, 1);
 
-    // delete Cloudinary resource if present
     if (removed && removed.cloudinary_public_id) {
       try {
         await cloudinary.uploader.destroy(removed.cloudinary_public_id, { invalidate: true });
