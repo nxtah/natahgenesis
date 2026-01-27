@@ -4,9 +4,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "npm run start --workspace server",
-    "build": "npm run build --workspace client"
-},
+    "start": "node index.js"
+  },
 
   "dependencies": {
     "cloudinary": "^1.32.0",
