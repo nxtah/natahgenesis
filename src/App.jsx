@@ -14,9 +14,23 @@ import Section7 from "./sections/Section7";
 import Section8 from "./sections/Section8";
 import Section9 from "./sections/Section9";
 import Footer from "./components/Footer";
+import Admin from "./sections/Admin";
 
 
 function App() {
+  const isAdminPath = typeof window !== 'undefined' && window.location.pathname === '/admin';
+
+  if (isAdminPath) {
+    return (
+      <Layout>
+        <Navbar />
+        <main style={{ padding: '2rem 1rem' }}>
+          <Admin />
+        </main>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Navbar />

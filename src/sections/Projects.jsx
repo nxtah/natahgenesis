@@ -39,6 +39,41 @@ const PROJECTS = [
   }
 ];
 
+// Client-side projects state (fetch from server). We keep the hardcoded list as fallback so design doesn't change
+import { useCallback } from 'react';
+
+function useRemoteProjects() {
+  const [projects, setProjects] = useState([]);
+  const fetchProjects = useCallback(async () => {
+    try {
+      const res = await fetch('/api/projects');
+      if (!res.ok) return;
+      const json = await res.json();
+      // Map to compatibility with existing fields
+      const mapped = (json || []).map(p => ({
+        id: p.id,
+        title: p.title,
+        desc: p.description || p.desc || '',
+        description: p.description || p.desc || '',
+        src: p.src,
+        whatsapp: p.whatsapp
+      }));
+      setProjects(mapped);
+    } catch (e) {
+      // silent fail; keep fallback
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProjects();
+    const handler = () => fetchProjects();
+    window.addEventListener('projects-updated', handler);
+    return () => window.removeEventListener('projects-updated', handler);
+  }, [fetchProjects]);
+
+  return [projects, fetchProjects];
+}
+
 export default function Projects() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
@@ -231,7 +266,7 @@ export default function Projects() {
         </header>
 
         <div className="projects-grid">
-          {PROJECTS.map((p) => (
+          {((() => { const [remoteProjects] = useRemoteProjects(); return remoteProjects && remoteProjects.length > 0 ? remoteProjects : PROJECTS; })()).map((p) => (
             <div
               key={p.id}
               role="button"
@@ -268,7 +303,7 @@ export default function Projects() {
               </div>
               <div className="project-body">
                 <h3 className="project-title">{p.title}</h3>
-                <p className="project-desc">{p.desc}</p>
+                <p className="project-desc">{p.description || p.desc}</p>
               </div>
             </div>
           ))}
@@ -294,7 +329,7 @@ export default function Projects() {
 
                 <div className="projects-modal-content">
                   <h3 id={`proj-title-${active.id}`} className="projects-modal-title">{active.title}</h3>
-                  <p className="projects-modal-desc">{active.desc}</p>
+                  <p className="projects-modal-desc">{active.description || active.desc}</p>
                   <div className="projects-modal-actions">
                     <button
                       className="btn-primary btn-modal-consult"

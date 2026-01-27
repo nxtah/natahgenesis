@@ -1,0 +1,220 @@
+/* Admin layout (redesigned) */
+:root {
+  --admin-bg: var(--black);
+  --admin-foreground: var(--white);
+  --muted: rgba(255,255,255,0.65);
+  --glass: rgba(255,255,255,0.03);
+}
+
+/* Page container */
+.admin-page {
+  min-height: 84vh;
+  background: var(--admin-bg);
+  color: var(--admin-foreground);
+  font-family: 'NeueMontreal', 'Inter', sans-serif;
+  padding: 48px 20px;
+  box-sizing: border-box;
+}
+
+.admin-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-title {
+  font-family: 'Migra', serif;
+  font-size: clamp(2rem, 4.2vw, 3.6rem);
+  margin: 0;
+  color: var(--admin-foreground);
+  line-height: 1;
+}
+
+.admin-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Simple login row */
+.admin-login {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1.25rem 0 1.5rem 0;
+}
+
+.admin-login label { color: var(--muted); }
+.admin-login input[type="password"] {
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: var(--admin-foreground);
+  min-width: 280px;
+}
+
+/* Actions */
+.admin-actions { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+
+.button {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--admin-foreground);
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button.ghost {
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.06);
+}
+
+.button.warn { color: #ffb4b4; border-color: rgba(255,80,80,0.15); }
+
+/* Two column grid: list | form */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 20px;
+}
+
+.projects-list {
+  background: var(--glass);
+  border-radius: 10px;
+  padding: 12px;
+  max-height: 64vh;
+  overflow: auto;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.project-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  align-items: center;
+}
+
+.project-item:last-child { border-bottom: none; }
+.project-item .meta { flex: 1; }
+.project-item .meta h4 { margin: 0 0 4px 0; font-size: 1.05rem; font-weight: 700; }
+.project-item .meta p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+.project-actions { display: flex; gap: 8px; }
+
+/* Form */
+.admin-form {
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+/* Redesigned form: centered card, dropzone, progress, toast */
+.admin-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 18px 80px rgba(2,6,23,0.45);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.dropzone {
+  border: 1px dashed rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  background: rgba(255,255,255,0.01);
+  cursor: pointer;
+}
+
+.dropzone.hover {
+  border-color: rgba(34,197,94,0.9);
+  background: rgba(34,197,94,0.04);
+}
+
+.progress-bar {
+  height: 8px;
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.progress-bar > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(34,197,94,0.95), rgba(16,185,129,0.95));
+  width: 0%;
+  transition: width 240ms linear;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: rgba(255,255,255,0.04);
+  color: var(--white);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 32px rgba(2,6,23,0.3);
+}
+
+/* Server status badge */
+.status-badge {
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+  color: var(--white);
+  min-width: 72px;
+  text-align: center;
+}
+
+.status-checking { background: linear-gradient(90deg, rgba(250,204,21,0.12), rgba(250,204,21,0.06)); color: #f59e0b; border-color: rgba(250,204,21,0.14); }
+.status-ok { background: linear-gradient(90deg, rgba(34,197,94,0.12), rgba(34,197,94,0.06)); color: #16a34a; border-color: rgba(34,197,94,0.12); }
+.status-down { background: linear-gradient(90deg, rgba(255,99,99,0.08), rgba(255,99,99,0.04)); color: #ef4444; border-color: rgba(255,99,99,0.12); }
+.status-unknown { opacity: 0.8; }
+.admin-form label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 0.9rem; }
+.admin-form input[type="text"], .admin-form textarea, .admin-form input[type="number"], .admin-form input[type="file"] {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+  color: var(--admin-foreground);
+}
+
+.admin-form textarea { min-height: 120px; resize: vertical; }
+
+.admin-form textarea.small-textarea { min-height: 56px; resize: vertical; }
+
+.admin-form .actions { display: flex; gap: 8px; margin-top: 6px; }
+
+.form-section { margin-bottom: 0.8rem; }
+
+.file-input-area { display: flex; align-items: center; gap: 0.5rem; }
+.file-preview { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); }
+.file-preview .preview-video { width: 100%; height: auto; display: block; }
+
+.button.primary { background: linear-gradient(180deg, rgba(34,197,94,0.98), rgba(16,185,129,0.95)); color: #062e1a; border-color: rgba(0,0,0,0.08); }
+
+.admin-help { margin-top: 0.6rem; color: var(--muted); font-size: 0.9rem; }
+
+/* Small screens: stack */
+@media (max-width: 920px) {
+  .admin-grid { grid-template-columns: 1fr; }
+  .admin-login { flex-direction: column; align-items: stretch; }
+  .admin-login input[type="password"] { width: 100%; }
+}

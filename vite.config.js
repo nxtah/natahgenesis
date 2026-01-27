@@ -6,5 +6,16 @@ export default defineConfig({
   plugins: [
     react(),
     glsl()
-  ]
+  ],
+  server: {
+    proxy: {
+      // Proxy API calls to the backend during development
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        // optional: rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
+  }
 })

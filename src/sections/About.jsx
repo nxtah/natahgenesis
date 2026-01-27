@@ -49,24 +49,33 @@ const About = () => {
 
         // Background transition: animate section bg from black -> white as user scrolls into about
         // Also toggle .about--white when more than half visible for text contrast
-        gsap.set(sectionRef.current, { backgroundColor: 'var(--black)' });
-        // Simple background color transition (no gradient CSS variables)
-        gsap.set(sectionRef.current, { backgroundColor: 'var(--black)' });
-        const bgTween = gsap.to(sectionRef.current, {
-          backgroundColor: 'var(--white)',
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 20%',
-            end: 'top 20%',
-            scrub: 1.2,
-            onUpdate: (self) => {
-              if (self.progress > 0.5) sectionRef.current.classList.add('about--white');
-              else sectionRef.current.classList.remove('about--white');
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Initialize background respecting reduced motion preference
+        gsap.set(sectionRef.current, { backgroundColor: prefersReduced ? 'var(--white)' : 'var(--black)' });
+
+        let bgTween;
+        if (!prefersReduced) {
+          // Use a proper scroll range so the transition scrubs smoothly while scrolling into the section
+          bgTween = gsap.to(sectionRef.current, {
+            backgroundColor: 'var(--white)',
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 80%',
+              end: 'top 20%',
+              scrub: 1.2,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                if (self.progress > 0.5) sectionRef.current.classList.add('about--white');
+                else sectionRef.current.classList.remove('about--white');
+              }
             }
-          }
-        });
+          });
+        } else {
+          // Respect reduced motion: immediately set to white state for better contrast
+          sectionRef.current.classList.add('about--white');
+        }
 
         // Subtle parallax entrance/exit for the two-column block (desktop) — smooth and not too fast
         let parallaxLeft, parallaxRight, parallaxBottom;
