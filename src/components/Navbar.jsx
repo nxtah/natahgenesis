@@ -259,7 +259,20 @@ const Navbar = () => {
       {/* Fullscreen mobile menu overlay */}
       {(menuOpen || isClosing) && (
         <div className={`mobile-fullmenu ${isClosing ? 'mobile-fullmenu--closing' : 'mobile-fullmenu--open'}`} role="dialog" aria-modal="true">
-          <button className="mobile-fullmenu-close" onClick={handleRequestClose} aria-label="Tutup menu">
+          {/* Social icons absolute left top */}
+          <div style={{ position: 'absolute', left: '1.2rem', top: '1.2rem', display: 'flex', gap: '1.1rem', zIndex: 2 }}>
+            <a href="https://instagram.com/natahgenesis" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white"><rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2"/><circle cx="12" cy="12" r="4.2" stroke="white" strokeWidth="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="white"/></svg>
+            </a>
+            <a href="https://facebook.com/natahgenesis" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white"><rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2"/><path d="M15 8h-2a1 1 0 0 0-1 1v2h3l-.5 2H12v6h-2v-6H8v-2h2V9a3 3 0 0 1 3-3h2v2z" fill="white"/></svg>
+            </a>
+            <a href="https://wa.me/6285782338277" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white"><rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2"/><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.967-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.173.198-.298.298-.496.099-.198.05-.372-.025-.521-.074-.149-.669-1.612-.916-2.206-.242-.58-.487-.502-.669-.511-.173-.009-.372-.009-.57-.009-.198 0-.512.074-.782.347-.27.273-1.02.997-1.02 2.436 0 1.439 1.061 2.824 1.209 3.017.149.198 2.073 3.174 5.021 4.327 2.948 1.153 2.948.772 3.474.726.521-.045 1.693-.687 1.927-1.345.234-.658.234-1.217.173-1.345-.062-.128-.297-.198-.62-.347z" fill="white"/></svg>
+            </a>
+          </div>
+          {/* Exit button absolute right top, as before */}
+          <button className="mobile-fullmenu-close" onClick={handleRequestClose} aria-label="Tutup menu" style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 2 }}>
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M6 6L18 18M6 18L18 6" />
             </svg>
@@ -268,6 +281,8 @@ const Navbar = () => {
             <a href="#hero" onClick={handleRequestClose}>Beranda</a>
             <a href="#services" onClick={handleRequestClose}>Solusi</a>
             <a href="#projects" onClick={handleRequestClose}>Projek</a>
+            <a href="#pricing" onClick={handleRequestClose}>Paket</a>
+            <a href="#form" onClick={handleRequestClose}>Form</a>
           </div>
 
           {/* Footer action buttons: left = Konsultasi, right = Chatbot (same size) */}

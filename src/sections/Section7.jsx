@@ -70,7 +70,7 @@ const pricingData = {
   landing: [
     {
       name: "Landing Starter",
-      price: "Rp900.000",
+      price: "Rp1.300.000",
       featured: false,
       features: [
         "Domain .com Gratis 1 Tahun",
@@ -87,8 +87,8 @@ const pricingData = {
       link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Landing%20Starter"
     },
     {
-      name: "Landing Pro + AI Chatbot",
-      price: "Rp1.800.000",
+      name: "Landing Pro",
+      price: "Rp2.750.000",
       featured: true,
       promo: "Paling Laris",
       features: [
@@ -105,20 +105,20 @@ const pricingData = {
       link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Landing%20Pro"
     },
     {
-      name: "Landing Premium",
-      price: "Rp2.900.000",
+      name: "Landing Premium + AI Chatbot",
+      price: "Rp3.750.000",
       featured: false,
       features: [
-        "Semua fitur Pro",
-        "Tambah 2 Halaman (About/FAQ/Testimoni)",
+        "Semua fitur Starter & Pro",
+        "Tambah 2 Halaman (About/FAQ/Testimoni/dll)",
         "Custom Animasi & Interaksi",
         "Optimasi Kecepatan Tinggi",
-        "5x Revisi Gratis",
+        "5x Revisi Gratis!",
         "Maintenance 2 Bulan",
         "Prioritas Support"
       ],
       suitable: "Buat brand yang mau tampil beda dan premium.",
-      link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Landing%20Premium"
+      link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Landing%20Premium%20%2B%20AI%20Chatbot"
     }
   ],
   portofolio: [
@@ -141,7 +141,7 @@ const pricingData = {
       link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Portofolio%20Starter"
     },
     {
-      name: "Portofolio Pro + AI",
+      name: "Portofolio Pro",
       price: "Rp1.400.000",
       featured: true,
       promo: "Rekomendasi",
@@ -158,7 +158,7 @@ const pricingData = {
       link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Portofolio%20Pro"
     },
     {
-      name: "Portofolio Premium",
+      name: "Portofolio Premium + AI Chatbot",
       price: "Rp2.200.000",
       featured: false,
       features: [
@@ -177,7 +177,7 @@ const pricingData = {
   profil: [
     {
       name: "Profil Usaha Starter",
-      price: "Rp1.500.000",
+      price: "Rp2.500.000",
       featured: false,
       features: [
         "Hingga 5-7 Halaman",
@@ -193,7 +193,7 @@ const pricingData = {
     },
     {
       name: "Profil Usaha Pro + AI Chatbot",
-      price: "Rp2.500.000",
+      price: "Rp4.000.000",
       featured: true,
       promo: "Best Value",
       features: [
@@ -209,8 +209,8 @@ const pricingData = {
       link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Profil%20Usaha%20Pro"
     },
     {
-      name: "Profil Usaha Premium",
-      price: "Rp3.800.000",
+      name: "Profil Usaha Premium + AI Chatbot",
+      price: "Rp6.500.000",
       featured: false,
       features: [
         "Semua fitur Pro",
@@ -228,7 +228,7 @@ const pricingData = {
   toko: [
     {
       name: "Toko Online Starter",
-      price: "Rp2.200.000",
+      price: "Rp2.500.000",
       featured: false,
       features: [
         "Max 50 Produk",
@@ -245,7 +245,7 @@ const pricingData = {
     },
     {
       name: "Toko Online Pro + AI",
-      price: "Rp3.800.000",
+      price: "Rp6.000.000",
       featured: true,
       promo: "Popular",
       features: [
@@ -260,8 +260,8 @@ const pricingData = {
       link: "https://wa.me/6285782338277?text=Saya%20mau%20paket%20Toko%20Online%20Pro"
     },
     {
-      name: "Toko Online Premium",
-      price: "Rp5.500.000",
+      name: "Toko Online Premium + AI Chatbot",
+      price: "Rp11.000.000",
       featured: false,
       features: [
         "Semua fitur Pro",
