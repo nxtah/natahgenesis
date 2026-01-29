@@ -121,7 +121,8 @@
 /* Responsive: reduce columns on smaller screens */
 
 
-/* About background color states (default dark, smooth transition to light when section active) */
+/* About background
+ color states (default dark, smooth transition to light when section active) */
 .about {
   background-color: var(--black);
   color: var(--white);

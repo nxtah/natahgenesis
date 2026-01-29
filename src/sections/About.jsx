@@ -363,33 +363,19 @@ const About = () => {
       // Ensure immediate white background on mobile
       gsap.set(sectionRef.current, { backgroundColor: 'var(--white)' });
       sectionRef.current.classList.add('about--white');
-
-      return () => {
-        if (sectionRef.current) sectionRef.current.classList.remove('about--white');
-      };
+      // Do not remove .about--white on cleanup (keep always white)
+      return () => {};
     });
 
     // Failsafe: also observe About section directly and toggle white state when more than half visible
     // This helps in cases where the Projects grid intercepts scroll and prevents GSAP's ScrollTrigger
     try {
       if ('IntersectionObserver' in window && sectionRef.current) {
-        const aboutIo = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.intersectionRatio > 0.5) {
-              sectionRef.current.classList.add('about--white');
-              gsap.set(sectionRef.current, { backgroundColor: 'var(--white)' });
-            } else {
-              sectionRef.current.classList.remove('about--white');
-              gsap.set(sectionRef.current, { backgroundColor: 'var(--black)' });
-            }
-          });
-        }, { threshold: [0.5] });
-        aboutIo.observe(sectionRef.current);
-
-        // Cleanup when mm is torn down
-        return () => {
-          aboutIo.disconnect();
-        };
+        // Always keep .about--white and background white, no toggling back to black
+        sectionRef.current.classList.add('about--white');
+        gsap.set(sectionRef.current, { backgroundColor: 'var(--white)' });
+        // No observer needed, no cleanup needed
+        return () => {};
       }
     } catch (e) { /* fail silently */ }
 

@@ -124,7 +124,7 @@ const pricingData = {
   portofolio: [
     {
       name: "Portofolio Starter",
-      price: "Rp750.000",
+      price: "Rp910.000",
       featured: false,
       features: [
         "Desain Clean & Minimalis",
@@ -328,7 +328,7 @@ const pricingData = {
 
   return (
     <section
-      id="pricing"
+      id="section7"
       ref={inViewRef}
       className="bg-natah-white text-natah-black section-padding"
       data-theme="light"
@@ -338,14 +338,14 @@ const pricingData = {
           <div className="reveal-price-head gsap-reveal flex justify-center mb-4">
             <span className="bg-red-100 text-red-600 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-2">
               <Sparkles className="w-3 h-3" />
-              Promo Mahasiswa & UMKM 2026
+              Promo khusus untuk Mahasiswa
             </span>
           </div>
           <h2 className="text-migra text-4xl md:text-5xl lg:text-6xl font-bold mb-6 reveal-price-head gsap-reveal">
             Paket Website Simpel & Cepat Jadi
           </h2>
           <p className="text-montreal text-lg opacity-70 reveal-price-head gsap-reveal max-w-2xl mx-auto">
-            Mulai dari Rp750rb, termasuk AI Chatbot di paket Pro. Cocok buat mahasiswa, UMKM, dan pemula.
+            Mulai dari Rp910rb, Cocok buat mahasiswa yang butuh portfolio untuk kerja atau magang
           </p>
         </div>
 

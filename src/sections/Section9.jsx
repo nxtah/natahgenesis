@@ -161,6 +161,8 @@ const Section9 = () => {
             {/* Floating WhatsApp Button */}
             <a
                 href="https://wa.me/6285782338277?text=Halo%20Natah,%20saya%20tertarik%20konsultasi%20langsung"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Konsultasi via WhatsApp"
                 className={`fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl transition-all duration-500 hover:scale-110 flex items-center md:gap-3 gap-0 md:pr-6 pr-4 ${showFloating ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
             >

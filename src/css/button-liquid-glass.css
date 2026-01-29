@@ -1,0 +1,93 @@
+.liquid-glass-btn {
+  position: relative;
+  z-index: 1;
+}
+/* Animated border light sweep */
+/* Ensure pointer events enabled for button even if parent has pointer-events:none */
+.hero-center-btn, .liquid-glass-btn {
+  pointer-events: auto !important;
+}
+/* Liquid Glass Button Styles */
+.liquid-glass-btn {
+  font-family: 'NeueMontreal', 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.18rem;
+  padding: 0.42em 2.1em;
+  border: 1.2px solid rgba(255,255,255,0.72);
+  border-radius: 2.5em;
+  background: linear-gradient(120deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.09) 100%);
+  color: var(--white);
+  box-shadow: 0 2.5px 18px 0 rgba(30,40,80,0.13), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+  backdrop-filter: blur(18px) saturate(1.7);
+  -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  transition: background 0.22s cubic-bezier(.4,0,.2,1), color 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1), transform 0.18s cubic-bezier(.4,0,.2,1), border-color 0.18s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  min-width: 160px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 8px rgba(255,255,255,0.13);
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.liquid-glass-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.10) 100%);
+  opacity: 0.55;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-glass-btn:hover, .liquid-glass-btn:focus {
+  background: linear-gradient(120deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.16) 100%);
+  color: var(--white);
+  border-color: #fff;
+  box-shadow: 0 8px 32px 0 rgba(30,40,80,0.16), 0 2.5px 12px 0 rgba(0,0,0,0.10);
+  transform: translateY(-2px) scale(1.035);
+}
+
+.liquid-glass-btn:active {
+  background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
+  color: var(--white);
+  border-color: #fff;
+  box-shadow: 0 2px 8px 0 rgba(30,40,80,0.10);
+  transform: scale(0.98);
+}
+
+@media (max-width: 1023px) {
+  .hero-center-btn {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-center-btn {
+    display: flex !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 12;
+    pointer-events: auto !important;
+  }
+}
+
+/* Mobile-only button container (below hero text) */
+.hero-center-btn-mobile {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.5rem;
+  pointer-events: auto !important;
+}
+
+@media (min-width: 1024px) {
+  .hero-center-btn-mobile {
+    display: none !important;
+  }
+}

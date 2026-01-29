@@ -152,7 +152,7 @@ const Section5 = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
                         <div className="md:col-span-5 md:col-start-1">
-                            <p className="text-xs font-bold uppercase tracking-widest opacity-40 mb-6">Our Standard</p>
+                            <p className="text-xs font-bold uppercase tracking-widest opacity-40 mb-6">Standar Kita</p>
                             <p className="text-montreal text-xl md:text-2xl opacity-90 leading-relaxed">
                                 Kami menolak standar "asal ada". Website kamu dibangun dengan teknologi modern dengan kombinasi AI untuk Customer Service 24/ untuk membantu kamu dalam closing awal.
                             </p>
